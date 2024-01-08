@@ -259,6 +259,10 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
+                                            <?php $total = 0 ?>
+                                        @if(session('cart'))
+                                     @foreach(session('cart') as $id => $details)
+                                          <?php $total += $details['price'] * $details['quantity'] ?>
                                                 <tr>
                                                     <td class="p-name">Aliquam consequat</td>
                                                     <td class="p-amount"><span class="amount">£156.87</span></td>

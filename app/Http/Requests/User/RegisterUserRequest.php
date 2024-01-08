@@ -16,7 +16,7 @@ class RegisterUserRequest extends FormRequest
     {
         return true;
     }
-    
+
     /**
      * Prepare the data for validation.
      *

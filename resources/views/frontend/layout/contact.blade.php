@@ -28,11 +28,11 @@
                   <h3>Get In Touch</h3>
                 </div>
                 <form action="#">
-                  <div class="grid-50-50">
-                    <input type="text" class="contact-sectin" placeholder="First Name">
-                    <input type="text" class="contact-sectin" placeholder="Last Name">
-                    <input type="email" class="contact-sectin" placeholder="Email">
-                    <input type="tel" class="contact-sectin" placeholder="Phone/Skype">
+                  <div class="grid-50-50 col-md-12">
+                    <input type="text" class="contact-sectin col-md-6" placeholder="First Name">
+                    <input type="text" class="contact-sectin col-md-6" placeholder="Last Name">
+                    <input type="email" class="contact-sectin col-md-6 " placeholder="Email">
+                    <input type="tel" class="contact-sectin col-md-6 col-sm-12" placeholder="Phone/Skype">
                   </div>
                   <div class="grid-full">
                     <textarea id="contact-area" placeholder="About Your Project" cols="30" rows="10"></textarea>
@@ -46,7 +46,7 @@
               <ul class="get_say_info_sec">
                 <li>
                   <i class="fa fa-envelope"></i>
-                  <a href="mailto:">info@stackfindover.com</a>
+                  <a href="mailto:">info@ stackfindover .com</a>
                 </li>
                 <li>
                   <i class="fa fa-whatsapp"></i>

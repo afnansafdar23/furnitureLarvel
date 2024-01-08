@@ -31,27 +31,22 @@
                                 <th class="product-thumbnail">Image</th>
                                 <th class="product-name"><span>Product</span></th>
                                 <th class="w-c-price"><span> Unit Price </span></th>
-                                <th class="product-stock-stauts"><span> Stock Status </span></th>
                                 <th class="product-add-to-cart"><span>Add to Cart </span></th>
                             </tr>
                         </thead>
                         <tbody>
+                        @if(session('wish'))
+                                     @foreach(session('wish') as $id => $details)
                             <tr>
-                                <td class="product-remove"><a href="#">×</a></td>
-                                <td class="product-thumbnail"><a href="product-details.html"><img src="assets/img/wishlist/2.jpg" alt="" /></a></td>
-                                <td class="product-name"><a href="product-details.html">Summer Hat</a></td>
-                                <td class="w-c-price"><span class="amount">$165.00</span></td>
-                                <td class="product-stock-status"><span class="wishlist-in-stock">In Stock</span></td>
-                                <td class="product-add-to-cart"><a href="cart.html"> Add to Cart</a></td>
+                                <td class="product-remove"><button class="remove-from-wish" data-id="{{ $id }}">×</button></td>
+                                <td class="product-thumbnail"><a href="product-details.html"><img src="{{$details['photo']}}" alt="" /></a></td>
+                                <td class="product-name"><a href="product-details.html">{{ $details['name'] }}</a></td>
+                                <td class="w-c-price"><span class="amount">${{ $details['price'] }}</span></td>
+                                <td class="product-add-to-cart"><a href="{{ url('add-to-cart/'.$details['name']) }}"> Add to Cart</a></td>
                             </tr>
-                            <tr>
-                                <td class="product-remove"><a href="#">×</a></td>
-                                <td class="product-thumbnail"><a href="product-details.html"><img src="assets/img/wishlist/1.jpg" alt="" /></a></td>
-                                <td class="product-name"><a href="product-details.html">Fashion Wears</a></td>
-                                <td class="w-c-price"><span class="amount">$50.00</span></td>
-                                <td class="product-stock-status"><span class="wishlist-in-stock">In Stock</span></td>
-                                <td class="product-add-to-cart"><a href="cart.html"> Add to Cart</a></td>
-                            </tr>
+                            @endforeach
+                            @endif
+
                         </tbody>
 
                     </table>

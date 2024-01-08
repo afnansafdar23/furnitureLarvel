@@ -18,7 +18,7 @@
 </div>
 <!-- Breadcrumb Area End -->
 <!-- terms  Area Start -->
-<h2 align="center" class="mt-5 fs-1 fw-700">Privacy Policy</h2>
+<h2 align="center" class="mt-5 fs-1 fw-700">Terms & Condition</h2>
 <div class="about-skill-area1 pt-80 pb-50">
             <div class=" privacy1 col-10 ">
 

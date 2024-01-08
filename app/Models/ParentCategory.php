@@ -13,5 +13,8 @@ class ParentCategory extends Model
     'name',
     ];
 
+    public function childCategories(){
+        return $this->hasMany(ChildCategory::class);
+    }
 
 }

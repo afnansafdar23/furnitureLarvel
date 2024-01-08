@@ -1,15 +1,20 @@
 <?php
 
 use App\Http\Controllers\Admin\AuthController;
+use App\Http\Controllers\Admin\ColorController;
 use App\Http\Controllers\Admin\FileManagerController;
 use App\Http\Controllers\Admin\ParentCategoryController;
 use App\Http\Controllers\Admin\PermissionController;
+use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\SubCategoryController;
 use App\Http\Controllers\Admin\UploadController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\ChildCategoryController;
+use App\Http\Controllers\Admin\SettingController;
+use App\Http\Controllers\frontend\DefaultController;
 use App\Http\Controllers\PostController;
+use App\Http\Middleware\Permissions;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -24,28 +29,32 @@ use Illuminate\Support\Facades\Route;
 */
 
 // for components testing purpose
-Route::view('/', 'welcome');
+// Route::view('/', 'welcome');
 
 
-Route::view('/index', 'frontend.layout.index');
-Route::view('/about', 'frontend.layout.about');
-Route::view('/Login', 'frontend.layout.login');
-Route::view('/Register', 'frontend.layout.register');
-Route::view('/Terms', 'frontend.layout.terms');
-Route::view('/Privacy-Policy', 'frontend.layout.privacypolicy');
-Route::view('/Product-Detail', 'frontend.layout.productdetail');
-Route::view('/FAQ', 'frontend.layout.faq');
+// Route::view('/index', 'frontend.layout.index');
+// Route::view('/About', 'frontend.layout.about')->name('about');
+// Route::view('/Login', 'frontend.layout.login');
+// Route::view('/Register', 'frontend.layout.register');
+// Route::view('/Terms', 'frontend.layout.terms');
+// Route::view('/Privacy-Policy', 'frontend.layout.privacypolicy');
+// Route::view('/Product-Detail', 'frontend.layout.productdetail');
+// Route::view('/FAQ', 'frontend.layout.faq');
+// Route::view('/Contact-Us', 'frontend.layout.contact');
+// Route::view('/Add-To-Cart', 'frontend.layout.addtocart');
+// Route::view('/Add-To-Wishlist', 'frontend.layout.addtowishlist');
+//  Route::view('/All-Product', 'frontend.layout.allproduct');
+// Route::view('/Blog', 'frontend.layout.blog');
+// Route::view('/blog-Detail', 'frontend.layout.blogdetail');
+// Route::view('/Category', 'frontend.layout.category');
+// Route::view('/Check-Out', 'frontend.layout.checkout');
+// Route::view('/Child-Category', 'frontend.layout.childcategory');
+Route::view('/Terms', 'frontend.layout.terms')->name('web.terms');
+Route::view('/Privacy-Policy', 'frontend.layout.privacypolicy')->name('web.privacy');
+Route::view('/FAQ', 'frontend.layout.faq')->name('web.faq');
 Route::view('/Contact-Us', 'frontend.layout.contact');
-Route::view('/Add-To-Cart', 'frontend.layout.addtocart');
-Route::view('/Add-To-Wishlist', 'frontend.layout.addtowishlist');
-Route::view('/All-Product', 'frontend.layout.allproduct');
-Route::view('/Blog', 'frontend.layout.blog');
-Route::view('/blog-Detail', 'frontend.layout.blogdetail');
-Route::view('/Category', 'frontend.layout.category');
-Route::view('/Check-Out', 'frontend.layout.checkout');
-Route::view('/Child-Category', 'frontend.layout.childcategory');
 
-
+Route::withoutMiddleware([Permissions::class])->group(function () {
 Route::controller(AuthController::class)
     ->prefix('auth')
     ->name('auth.')
@@ -56,6 +65,36 @@ Route::controller(AuthController::class)
         Route::post('check-register', 'checkRegister')->name('check.register');
         Route::get('logout', 'logout')->name('logout');
     });
+
+
+    Route::controller(DefaultController::class)
+    ->prefix('')
+    ->name('web.')
+    ->group(function () {
+        Route::get('', 'home')->name('index');
+        Route::get('/prod-by-cat/{parentCategory}', 'prodByCat')->name('prodByCat');
+        Route::get('/allcategories', 'allparentcategory')->name('allcategories');
+        Route::view('/about', 'frontend.layout.about')->name('about');
+        Route::get('/product-by-category/{id}', 'productbycategory')->name('product-by-category');
+        Route::get('/all-product', 'all')->name('allproduct');
+        Route::get('/product-by-child-category/{id}', 'porductbychildcategory')->name('productbychildcategory');
+        Route::view('/Terms', 'frontend.layout.terms')->name('terms');
+        Route::view('/Privacy-Policy', 'frontend.layout.privacypolicy')->name('privacy');
+        Route::view('/FAQ', 'frontend.layout.faq')->name('faq');
+
+        Route::get('add-to-cart/{id}',  'addtocart')->name('addtocart');
+        Route::get('add-to-wish/{id}', 'addtowishlist')->name('addtowish');
+        Route::get('/check-out', 'checkout')->name('checkout');
+        Route::get('/cart', 'cart')->name('cart');
+        Route::get('/wish', 'wish')->name('wish');
+        Route::delete('delete-wish', 'deletewish')->name('deletewish');
+        Route::get('product-detail/{name}', 'productDetail')->name('product.detail');
+
+        Route::delete('delete-cart', 'deletecart')->name('deletecart');
+        Route::get('product/detail/{product}', 'productDetails')->name('prod.detail');
+    });
+
+});
 
 Route::middleware('auth')->group(function () {
     Route::controller(UserController::class)
@@ -126,5 +165,40 @@ Route::middleware('auth')->group(function () {
                 Route::post('update/{childCategory}', 'update')->name('update');
                 Route::get('delete/{childCategory}', 'destroy')->name('delete');
             });
+            Route::controller(ProductController::class)
+            ->prefix('product')
+            ->name('product.')
+            ->group(function () {
+                Route::get('', 'index')->name('index');
+                Route::get('create', 'create')->name('create');
+
+                Route::post('store', 'store')->name('store');
+                Route::get('edit/{product}', 'edit')->name('edit');
+                Route::post('update/{product}', 'update')->name('update');
+                Route::get('delete/{product}', 'destroy')->name('delete');
+
+            });
+            Route::controller(ColorController::class)
+            ->prefix('color')
+            ->name('color.')
+            ->group(function () {
+                Route::get('', 'index')->name('index');
+                Route::get('create', 'create')->name('create');
+                Route::post('store', 'store')->name('store');
+                Route::get('delete/{color}', 'destroy')->name('delete');
+            });
+            // Setting Routes
+            Route::controller(SettingController::class)
+            ->prefix('setting')
+            ->name('setting.')
+            ->group(function () {
+                Route::get('', 'index')->name('index');
+                Route::get('create', 'create')->name('create');
+                Route::put('store/{setting}', 'store')->name('store');
+                Route::get('edit/{setting}', 'edit')->name('edit');
+                Route::post('update/{setting}', 'update')->name('update');
+                Route::get('delete/{setting}', 'destroy')->name('delete');
+            });
+
 
 });

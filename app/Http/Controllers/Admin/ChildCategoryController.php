@@ -46,6 +46,8 @@ class ChildCategoryController extends Controller
      */
     public function store(StoreCategoryRequest $request): RedirectResponse
     {
+
+        // dd($request->all());
        try {
         $childCategory = ChildCategory::create($request->validated());
         // dd(storage_path('tmp\uploads'. $request->image));

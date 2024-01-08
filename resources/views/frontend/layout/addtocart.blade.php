@@ -35,21 +35,29 @@
                         </tr>
                     </thead>
                     <tbody>
+                    <?php $total = 0 ?>
+                                        @if(session('cart'))
+                                     @foreach(session('cart') as $id => $details)
+                                          <?php $total += $details['price'] * $details['quantity'] ?>
+
                         <tr>
                             <td class="p-image">
-                                <a href="product-details.html"><img alt="" src="assets/img/cart/1.jpg"></a>
+                                <a href="product-details.html"><img alt="" src=" {{$details['photo']}}"></a>
                             </td>
-                            <td class="p-name"><a href="product-details.html">Leather Shoes</a></td>
-                            <td class="p-amount">$120.00</td>
-                            <td class="p-quantity"><input maxlength="12" type="text" value="1" name="quantity"></td>
-                            <td class="p-total"><span>$120.00</span></td>
-                            <td class="edit"><a href="product-details.html"><img src="assets/img/icon/delte.png" alt=""></a></td>
+                            <td class="p-name"><a href="{{url('product-detail/'.$details['name']) }}">{{ $details['name'] }}</a></td>
+                            <td class="p-amount">${{ $details['price'] }}</td>
+                            <td class="p-quantity"><input maxlength="12" type="number" value="{{ $details['quantity'] }}" name="quantity" class="quantity"></td>
+                            <td class="p-total"><span>${{ $details['price'] * $details['quantity'] }}</span></td>
+
+                            <td class="edit"><button  class="remove-from-cart" data-id="{{ $id }}"><img src=" {{asset('assets/img/icon/delte.png')}}" alt=""></button></td>
                         </tr>
+                        @endforeach
+                        @endif
                     </tbody>
                 </table>
             </div>
             <div class="all-cart-buttons">
-                <button class="button" type="button"><span>Continue Shopping</span></button>
+                <a   href="{{url('')}}" class="button"  role="button"><span>Continue Shopping</span></a>
 </div>
             <div class="row">
 
@@ -74,12 +82,10 @@
                     <div class="ht-shipping-content">
                         <h3>Total</h3>
                         <div class="amount-totals">
-                            <p class="total">Subtotal <span>$156.87</span></p>
-                            <p class="total">Grandtotal <span>$313.74</span></p>
-                            <button class="button" type="button"><span>Procced to checkout</span></button>
-                            <div class="clearfix"></div>
-                            <p class="floatright">Checkout with multiples address</p>
-                        </div>
+                            <p class="total">Subtotal <span>${{ $total }}</span></p>
+                            <p class="total">Grandtotal <span>${{ $total }}</span></p>
+                            <a href="{{url('/check-out')}}" class="button" type="button"><span>Procced to checkout</span></button>
+
                     </div>
                 </div>
             </div>

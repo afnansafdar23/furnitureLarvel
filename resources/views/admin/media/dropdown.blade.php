@@ -27,7 +27,7 @@
 <script type="text/javascript">
     var uploadedDocumentMap = {};
         var myDropzone = new Dropzone(
-            '#kt_dropzonejs_example_2', {
+            '#{{ $dropzone_name ?? 'kt_dropzonejs_example_2' }}', {
                 url: '{{ route('file.upload') }}',
                 maxFiles: 1, // MB
                 addRemoveLinks: true,
@@ -35,8 +35,8 @@
                     'X-CSRF-TOKEN': "{{ csrf_token() }}"
                 },
                 success: function(file, response) {
-                    $('form').append('<input type="hidden" name="image" value="' + response.name +
-                        '">')
+                    var fieldName = '{{ $dropzone_name ?? 'image' }}'; // Set the field name here
+                $('form').append('<input type="hidden" name="' + fieldName + '" value="' + response.name + '">')
                     uploadedDocumentMap[file.name] = response.name
                 },
                 removedfile: function(file) {
@@ -50,6 +50,9 @@
                     }
                     $('form').find('input[name="image"][value="' + name + '"]').remove()
                 },
+
+
+
                 init: function() {
                     @if (isset($file) && $file->getFirstMediaUrl($collection_name))
                         var fileUrl = {!! json_encode($file->getFirstMediaUrl($collection_name)) !!}
@@ -84,8 +87,11 @@
                             }
                         })
 
+
                     });
-                }
+
+            }
+
             });
 </script>
 @endpush

@@ -69,7 +69,7 @@ class UserController extends Controller
                 return back()->withError('Something went wrong !');
             }
         } catch (Exception $ex) {
-            return back()->withError('Something went wrong !');
+            return back()->withError($ex->getMessage());
         }
     }
 

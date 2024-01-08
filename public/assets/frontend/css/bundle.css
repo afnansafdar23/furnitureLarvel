@@ -130,7 +130,7 @@ input, textarea {
     padding-left: 10px;
     width: 100%;
 }
-input::-moz-placeholder, textarea::-moz-placeholder {color: #666666;} 
+input::-moz-placeholder, textarea::-moz-placeholder {color: #666666;}
 input::-webkit-input-placeholder, textarea::-webkit-input-placeholder {color: #666666;}
 select {
     width: 100%;
@@ -323,7 +323,7 @@ input:focus, select:focus, textarea:focus, button:focus {
 .pl-140 { padding-left: 140px }
 .pl-150 { padding-left: 150px }
 /***************************
-    Page section padding 
+    Page section padding
 ****************************/
 .ptb-50 {padding: 50px 0;}
 .ptb-60 {padding: 60px 0;}
@@ -337,7 +337,7 @@ input:focus, select:focus, textarea:focus, button:focus {
 .ptb-140 { padding: 140px 0 }
 .ptb-150 { padding: 150px 0 }
 /****************************
-    Background variation set 
+    Background variation set
 *****************************/
 .bg-white { background: #fff }
 .bg-light { background: #F7F7F7 }
@@ -346,21 +346,21 @@ input:focus, select:focus, textarea:focus, button:focus {
 .bg-golden { background: #A9946A; }
 .bg-dark { background: #333333 }
 .bg-1, .bg-2, .bg-3, .bg-4, .bg-5 {
-    background-attachment: scroll; 
-	background-clip: initial; 
-	background-color: rgba(0, 0, 0, 0); 
-	background-origin: initial; 
-	background-position: center center; 
-	background-repeat: no-repeat; 
-	background-size: cover; 
-	position: relative; 
+    background-attachment: scroll;
+	background-clip: initial;
+	background-color: rgba(0, 0, 0, 0);
+	background-origin: initial;
+	background-position: center center;
+	background-repeat: no-repeat;
+	background-size: cover;
+	position: relative;
 }
 .bg-1 { background-image: url("../img/bg/1.jpg");}
 .bg-2 {background-image: url("../img/bg/2.jpg");}
 .bg-3 { background-image: url("../img/bg/3.jpg");}
 .bg-4 { background-image: url("../img/bg/4.jpg");}
 .bg-5 { background-image: url("../img/bg/5.jpg");}
-[data-overlay] {position: relative;} 
+[data-overlay] {position: relative;}
 [data-overlay]::before {
     background: #000 none repeat scroll 0 0;
     content: "";
@@ -379,7 +379,7 @@ input:focus, select:focus, textarea:focus, button:focus {
 [data-overlay="7"]::before {opacity: 0.7;}
 [data-overlay="8"]::before {opacity: 0.8;}
 /* white overlay */
-[white-overlay] {position: relative;} 
+[white-overlay] {position: relative;}
 [white-overlay]::before {
     background: #fff none repeat scroll 0 0;
     content: "";

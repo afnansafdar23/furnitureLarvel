@@ -19,27 +19,26 @@
 <!-- Breadcrumb Area End -->
 <!-- Product Details Area Start -->
 <div class="product-details-area pt-80 pb-75">
+
+
+
     <div class="container">
         <div class="row">
             <div class="col-lg-5 col-md-5 col-sm-12">
                 <div class="single-product-image product-image-slider fix">
-                    <div class="p-image"><img id="zoom1" src="assets/img/product/1.jpg" alt="" data-zoom-image="img/product/20.jpg"></div>
-                    <div class="p-image"><img src="assets/img/product/2.jpg" alt=""></div>
-                    <div class="p-image"><img src="assets/img/product/34.jpg" alt=""></div>
-                    <div class="p-image"><img src="assets/img/product/15.jpg" alt=""></div>
-                    <div class="p-image"><img src="assets/img/product/35.jpg" alt=""></div>
+                @if(!empty($image))
+
+                    <div class="p-image"><img id="zoom1" src="{{$image}}" alt="" data-zoom-image="{{$image}}"></div>
+
                 </div>
                 <div class="single-product-thumbnail product-thumbnail-slider float-left" id="gallery_01">
-                    <div class="p-thumb"><img src="assets/img/product/details/1.jpg" alt=""></div>
-                    <div class="p-thumb"><img src="assets/img/product/details/2.jpg" alt=""></div>
-                    <div class="p-thumb"><img src="assets/img/product/details/3.jpg" alt=""></div>
-                    <div class="p-thumb"><img src="assets/img/product/details/4.jpg" alt=""></div>
-                    <div class="p-thumb"><img src="assets/img/product/details/5.jpg" alt=""></div>
+                <div class="p-thum"><img  src="{{$image}}" alt="{{$product->name}}"></div>
+                @endif
                 </div>
             </div>
             <div class="col-lg-7 col-md-7 col-sm-12">
                 <div class="p-d-wrapper">
-                    <h1>Joust Duffle Bag</h1>
+                    <h1>{{$product->name}}</h1>
                     <div class="p-rating-review">
                         <div class="product-rating">
                             <i class="fa fa-star color"></i>
@@ -51,19 +50,19 @@
                         <span>1 review</span>
                         <a href="#" class="scroll-down">Add your review</a>
                     </div>
-                    <span class="p-d-price">$34.00</span>
-                    <span class="model-stock">In stock <span><span>SKU</span>24-MB01</span></span>
+                    <span class="p-d-price">{{$product->discounted_price}}</span>
+                    <span class="model-stock">In stock <span><span>SKU</span>{{$product->sku}}</span></span>
                     <div class="qty-cart-add">
                         <label for="qty">qty</label>
                         <input  type="number" placeholder="1" id="qty">
-                        <a href="{{url("/Add-To-Cart")}}">Add to cart</a>
+                        <a href="{{ url('add-to-cart/'.$product->id) }}">Add to cart</a>
                     </div>
                     <div class="p-d-buttons">
-                        <a href="{{url("/Add-To-Wishlist")}}">Add to wish list</a>
+                        <a href="{{ url('add-to-wish/'.$product->id) }}">Add to wish list</a>
                         <a href="#">BUY NOW</a>
 
                     </div>
-                    <p>The sporty Joust Duffle Bag can't be beat - not in the gym, not on the luggage carousel, not anywhere. Big enough to haul a basketball or soccer ball and some sneakers with plenty of room to spare, it's ideal for athletes with places to go.</p>
+                    <p>{{$product->features}}</p>
                 </div>
             </div>
         </div>
@@ -80,7 +79,7 @@
                 <div class="tab-pane active show fade" id="tab1" role="tabpanel">
                     <div class="tab-items">
                         <div class="p-details-list">
-                            <p>Convenience is next to nothing when your day is crammed with action. So whether you're heading to class, gym, or the unbeaten path, make sure you've got your Strive Shoulder Pack stuffed with all your essentials, and extras as well.</p>
+                            <p>{{$product->description}}</p>
                             <span>Zippered main compartment.</span>
                             <span>Front zippered pocket.</span>
                             <span>Side mesh pocket.</span>

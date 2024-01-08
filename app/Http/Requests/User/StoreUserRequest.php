@@ -22,12 +22,7 @@ class StoreUserRequest extends FormRequest
      *
      * @return void
      */
-    protected function prepareForValidation()
-    {
-        $this->merge([
-            'password' => Hash::make($this->password)
-        ]);
-    }
+
 
     /**
      * Get the validation rules that apply to the request.
