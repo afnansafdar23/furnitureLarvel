@@ -37,9 +37,13 @@
                                         <label class="col-lg-8 col-form-label required fw-bold fs-6">Image</label>
                                         @include('admin.media.dropdown')
                                     </div>
-                                    <div class="col-6">
+                                    <div class="col-12">
                                         <x-cento-dash-input type="text" name="name" label="Name" placeholder="Name"
                                             :message="$errors->first('name')" />
+                                    </div>
+                                    <div class="col-12">
+                                        <x-textarea type='text' name="description" label="Description" class="col-12"
+                                            placeholder="Enter Description" :message="$errors->first('description')" />
                                     </div>
                                     <div class="col-12">
                                         <x-cento-dash-input type="select" name="parent_category_id"

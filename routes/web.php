@@ -82,8 +82,8 @@ Route::controller(AuthController::class)
         Route::view('/Privacy-Policy', 'frontend.layout.privacypolicy')->name('privacy');
         Route::view('/FAQ', 'frontend.layout.faq')->name('faq');
 
-        Route::get('add-to-cart/{id}',  'addtocart')->name('addtocart');
-        Route::get('add-to-wish/{id}', 'addtowishlist')->name('addtowish');
+        Route::post('add-to-cart/{productId}',  'addtocart')->name('addtocart');
+        Route::post('add-to-wish/{productId}', 'addtowishlist')->name('addtowish');
         Route::get('/check-out', 'checkout')->name('checkout');
         Route::get('/cart', 'cart')->name('cart');
         Route::get('/wish', 'wish')->name('wish');

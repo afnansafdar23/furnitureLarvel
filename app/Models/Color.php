@@ -9,9 +9,6 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Color extends Model
 {
     use HasFactory, SoftDeletes;
-    protected $fillable = [
-        'name',
-        'code'
-        ];
+     protected $fillable = ['name', 'code'];
 
 }

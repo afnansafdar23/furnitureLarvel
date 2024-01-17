@@ -13,7 +13,8 @@ class ChildCategory extends Model implements HasMedia
     use HasFactory, InteractsWithMedia, SoftDeletes;
     protected $fillable = [
         'name',
-        'parent_category_id'
+        'parent_category_id',
+        'description'
         ];
 
     public function parentCategory()

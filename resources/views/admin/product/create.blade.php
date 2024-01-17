@@ -1,5 +1,8 @@
 <x-layout.master>
     <x-slot name="header">
+        @section('css')
+
+       @endsection
         <x-layout.header />
     </x-slot>
     <x-slot name="left_side_nav">
@@ -87,10 +90,15 @@
                                         <x-cento-dash-input type="number" name="product_width" label="Product Width"
                                             placeholder="product_width" :message="$errors->first('product_width')" />
                                     </div>
-                                    <div class="col-6">
-                                        <x-cento-dash-input type="select" name="color_id"
-                                            label="Select Color" :options="$color"
-                                            :message="$errors->first('Color')" />
+                                    <div class="col-12">
+
+
+                                            <select id="color" name="color[]" multiple >
+                                                @foreach($color as $color)
+                                                <option value="{{$color->id}}">{{$color->name}}</option>
+                                                @endforeach
+                                            </select>
+
                                     </div>
                                     <div class="col-sm-3 my-4">
                                         <label class="form-check form-switch form-check-custom form-check-solid">

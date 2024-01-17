@@ -48,6 +48,14 @@
                                         <div class="error text-danger">{{ $message }}</div>
                                         @enderror
                                     </div>
+                                    <div class="col-6">
+                                        <x-textarea type='text' name="description" value="{{$childCategory['description']}}"  label="Description" class="col-12"
+                                            placeholder="{{$childCategory['description']}}" :message="$errors->first('description')" />
+                                            <div class="fv-plugins-message-container invalid-feedback"></div>
+                                        @error('description')
+                                        <div class="error text-danger">{{ $message }}</div>
+                                        @enderror
+                                    </div>
                                     <!--end::Col-->
                                     <!--begin::Col-->
                                     <div class="col-lg-6 fv-row fv-plugins-icon-container">

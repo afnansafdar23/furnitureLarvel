@@ -24,6 +24,19 @@
     <link href="assets/plugins/global/plugins.bundle.css" rel="stylesheet" type="text/css"/>
     <link href="assets/css/style.bundle.css" rel="stylesheet" type="text/css"/>
     <link href="assets/plugins/global/plugins.bundle.css" rel="stylesheet" type="text/css"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
+
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-multiselect/0.9.13/css/bootstrap-multiselect.css">
+
+    <link rel="stylesheet" href="{{asset('assets/plugins/summernote/summernote.min.css')}} ">
+    <link rel="stylesheet" href=" assets/plugins/summernote/summernote.min.css">
+
+
+    <!-- <script src="https://cdn.tiny.cloud/1/qagffr3pkuv17a8on1afax661irst1hbr4e6tbv888sz91jc/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
+5
+
+<script>tinymce.init({selector:'textarea'});</script> -->
 
     @yield('css')
 
@@ -5358,6 +5371,23 @@
     <script src="assets/js/custom/utilities/modals/upgrade-plan.js"></script>
     <script src="assets/js/custom/utilities/modals/create-app.js"></script>
     <script src="assets/js/custom/utilities/modals/users-search.js"></script>
+
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-multiselect/0.9.13/js/bootstrap-multiselect.js"></script>
+    <script src=" {{asset('assets/plugins/summernote/summernote.min.js')}}"></script>
+    <script src="plugins/summernote/summernote.min.js"></script>
+    <script>
+    $(function () {
+                // Summernote
+                $('textarea').summernote({
+                    height: '200px',
+                    tabsize: 2
+
+                });
+                $('#color').multiselect({
+		nonSelectedText: 'Select Colors'
+	});
+            });</script>
     {{-- <script src="{{asset('vendor/laravel-filemanager/js/dropzone.min.js')}}"></script> --}}
     <!--end::Custom Javascript-->
     <!--end::Javascript-->

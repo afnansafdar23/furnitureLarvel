@@ -37,6 +37,10 @@
                                             :message="$errors->first('name')" />
                                     </div>
                             </div>
+                            <div class="row">
+                                        <x-textarea type='text' name="description" label="Description" class="col-12"
+                                            placeholder="Enter Description" :message="$errors->first('description')" />
+                                    </div>
                             <div class="modal-footer mt-5 gap-2">
                                 <x-cento-dash-input type="submit" label="Add Parent Category" />
                                 <a class="btn btn-danger" href={{ route('parent.category.index') }}> Cancel </a>

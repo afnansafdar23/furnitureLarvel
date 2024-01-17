@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\View\View;
 use SebastianBergmann\Type\NullType;
+use Illuminate\Support\Facades\Session;
 
 class DefaultController extends Controller
 {
@@ -78,6 +79,14 @@ if($pid->isEmpty())
 
         $product = Product::all();
         $category = '';
+         // Eager load the 'colors' relationship to optimize queries
+
+        // dd($product);
+
+
+
+
+
 
         return view('frontend.layout.allproduct')->with([
             'product' => $product,
@@ -100,53 +109,77 @@ if($pid->isEmpty())
             'category' =>$category,
         ]);
     }
-    public function addtocart($id)
+    public function addToCart($productId)
     {
-        if(Auth::user()){
-        $product = Product::find($id);
+       if(Auth::user()){
+         // Sample product information retrieval, replace it with your logic
+         $product = Product::find($productId);
 
-        if(!$product) {
-            abort(404);
+         // Get the existing cart from the session or initialize an empty array
+         $cart = Session::get('cart', []);
+
+         // Check if the product already exists in the cart
+         if (array_key_exists($productId, $cart)) {
+             // Product already exists, increase quantity
+             $cart[$productId]['quantity'] += 1;
+         } else {
+             // Product doesn't exist, add it to the cart
+             $productImage =  $product->getFirstMediaUrl('product.image');
+             $cart[$productId] = [
+                 "name" => $product->name,
+                 "quantity" => 1,
+                 "price" => $product->discounted_price,
+                 "photo" => $productImage
+                 // Add other product details as needed
+             ];
+         }
+
+         // Save the updated cart array to the session
+         Session::put('cart', $cart);
+
+         // Return a JSON response (optional)
+         return response()->json(['cartSection' => view('frontend.layout.cart')->render()]);
+
+       }else{
+        return response()->json(['redirect' => route('auth.login')]);
+       }
+    }
+    public function addtowishlist($productId)
+    {
+        // Sample product information retrieval, replace it with your logic
+        if (Auth::user()) {
+            $product = Product::find($productId);
+
+            // Get the existing cart from the session or initialize an empty array
+            $wish = Session::get('wish', []);
+
+            // Check if the product already exists in the cart
+            if (array_key_exists($productId, $wish)) {
+                // Product already exists, increase quantity
+                $wish[$productId]['quantity'] += 1;
+            } else {
+                // Product doesn't exist, add it to the cart
+                $productImage =  $product->getFirstMediaUrl('product.image');
+                $wish[$productId] = [
+                    "name" => $product->name,
+                    "quantity" => 1,
+                    "price" => $product->discounted_price,
+                    "photo" => $productImage
+                    // Add other product details as needed
+                ];
+            }
+
+            // Save the updated cart array to the session
+            Session::put('wish', $wish);
+
+            // Return a JSON response (optional)
+            return response()->json(['wishSection' => view('frontend.layout.wish')->render()]);
+        } else {
+            // Redirect to the login route
+            return response()->json(['redirect' => route('auth.login')]);
         }
-        $cart = session()->get('cart');
-        // if cart is empty then this the first product
-        if(!$cart) {
-
-            $productImage =  $product->getFirstMediaUrl('product.image');
-
-            $cart = [
-                    $id => [
-                        "name" => $product->name,
-                        "quantity" => 1,
-                        "price" => $product->discounted_price,
-                        "photo" =>  $productImage
-
-                    ]
-            ];
-            session()->put('cart', $cart);
-            return redirect()->back()->with('success', 'Product added to cart successfully!');
-        }
-        // if cart not empty then check if this product exist then increment quantity
-        if(isset($cart[$id])) {
-            $cart[$id]['quantity']++;
-            session()->put('cart', $cart);
-            return redirect()->back()->with('success', 'Product added to cart successfully!');
-        }
-        // if item not exist in cart then add to cart with quantity = 1
-        $productImage =  $product->getFirstMediaUrl('product.image');
-        $cart[$id] = [
-            "name" => $product->name,
-            "quantity" => 1,
-            "price" => $product->discounted_price,
-            "photo" =>  $productImage
-        ];
-        session()->put('cart', $cart);
-        return redirect()->back()->with('success', 'Product added to cart successfully!');
-    } else{
-        return redirect()->route('auth.login');
     }
 
-    }
 
 
     public function deletecart(Request $request)
@@ -156,10 +189,12 @@ if($pid->isEmpty())
             if(isset($cart[$request->id])) {
                 unset($cart[$request->id]);
                 session()->put('cart', $cart);
+                return response()->json(['cartSection' => view('frontend.layout.cart')->render()]);
 
             }
-            session()->flash('success', 'Product removed successfully');
+
         }
+
     }
 
     public function cart()
@@ -168,49 +203,7 @@ if($pid->isEmpty())
     }
 
 
-    public function addtowishlist($id)
-    {
-        $product = Product::find($id);
 
-        if(!$product) {
-            abort(404);
-        }
-        $wish = session()->get('wish');
-        // if cart is empty then this the first product
-        if(!$wish) {
-
-            $productImage =  $product->getFirstMediaUrl('product.image');
-
-            $wish = [
-                    $id => [
-                        "name" => $product->name,
-                        "quantity" => 1,
-                        "price" => $product->discounted_price,
-                        "photo" =>  $productImage
-
-                    ]
-            ];
-            session()->put('wish', $wish);
-            return redirect()->back()->with('success', 'Product added to wish successfully!');
-        }
-        // if wish not empty then check if this product exist then increment quantity
-        if(isset($wish[$id])) {
-            $wish[$id]['quantity']++;
-            session()->put('wish', $wish);
-            return redirect()->back()->with('success', 'Product added to wish successfully!');
-        }
-        // if item not exist in wish then add to wish with quantity = 1
-        $productImage =  $product->getFirstMediaUrl('product.image');
-
-        $wish[$id] = [
-            "name" => $product->name,
-            "quantity" => 1,
-            "price" => $product->discounted_price,
-            "photo" =>  $productImage
-        ];
-        session()->put('wish', $wish);
-        return redirect()->back()->with('success', 'Product added to wish successfully!');
-    }
     public function wish()
     {
         return view('frontend.layout.addtowishlist');
@@ -223,9 +216,10 @@ if($pid->isEmpty())
             if(isset($wish[$request->id])) {
                 unset($wish[$request->id]);
                 session()->put('wish', $wish);
+                return response()->json(['wishSection' => view('frontend.layout.wish')->render()]);
 
             }
-            session()->flash('success', 'Product removed successfully');
+
         }
     }
 
@@ -235,6 +229,10 @@ if($pid->isEmpty())
         $name = $request->name;
 
         $products= Product::where("name",$name)->first();
+
+        $colors = Color::whereIn('id', $products->color)->get();
+
+
         if (!$products) {
             // Handle the case where the product is not found
             abort(404); // or redirect to a 404 page, or display an error message
@@ -251,7 +249,7 @@ if($pid->isEmpty())
 return view('frontend.layout.productdetail')->with([
     'product' => $products,
     'image' => $productImage,
-    'colors' => $color,
+    'colors' => $colors,
 ]);
 
 

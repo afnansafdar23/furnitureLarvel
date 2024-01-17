@@ -78,7 +78,7 @@
     position: relative;
     width: 470px;
 }
-.cart-box-wrapper {float: right; margin:  42px 0 50px 6px; position: relative;}
+.cart-box-wrapper {float: right; margin:  42px 0 50px 0px; position: relative;}
 .cart-info span span {
     background: #85979d none repeat scroll 0 0;
     border-radius: 50%;
@@ -3131,6 +3131,19 @@ h3.login-title {
 
       }
   }
+  .radio-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 10px; /* Adjust the gap between radio buttons as needed */
+}
+
+/* Style to center content in each grid cell */
+.radio-grid label {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
 
 
 

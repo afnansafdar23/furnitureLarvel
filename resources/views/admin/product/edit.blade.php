@@ -32,6 +32,7 @@
                                         <label class="col-lg-8 col-form-label required fw-bold fs-6">Image</label>
                                         @include('admin.media.dropdown',['file' => $product,
                                         'collection_name' => 'product.image',])
+                                        {{dd($product->getFirstMediaUrl('product.image'))}}
                                     </div>
                                     <div class="col-12">
                                         <x-cento-dash-input type="text" name="name" label="Name" placeholder="Name"

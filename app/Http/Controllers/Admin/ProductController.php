@@ -55,20 +55,30 @@ class ProductController extends Controller
     public function store(StoreProductRequest $request):RedirectResponse
     {
 
+
+        //  dd($request->all());
+
         try {
-            $product = Product::create($request->validated());
-            //  dd($product);
+               $validatedData =  $request->validated();
+             // Convert color array to JSON before storing
+             $validatedData['color'] = $request->input('color', []);
+
+            $product = Product::create($validatedData);
+
+
+
+            //  dd($p);
             if (isset($request->image)) {
                 $product->addMedia(storage_path('tmp/uploads/' . $request->image))->toMediaCollection('product.image');
             }
             if ($product) {
                 return redirect()->route('product.index')->withSuccess('Product successfully created');
             } else {
-                return back()->withError('Something went wrong !');
+                return back()->withError($product->getMessage());
             }
         } catch (Exception $ex) {
             // dd($ex->getMessage());
-            return back()->withError('Something went wrong !');
+            return back()->withError($ex->getMessage());
         }
     }
 

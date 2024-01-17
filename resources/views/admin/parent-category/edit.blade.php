@@ -35,6 +35,18 @@
                                                 :message="$errors->first('name')" />
                                         </div>
                             </div>
+                            <div class="row">
+                                        <x-textarea type='text' value="{{$parentCategory['description']}}"  name="description" label="Description" class="col-12"
+                                            placeholder="Enter Description" :message="$errors->first('description')" />
+                                    </div>
+                                    <div class="col-6">
+                                        <x-textarea type='text' name="description" value="{{$parentCategory['description']}}"  label="Description" class="col-12"
+                                            placeholder="{{$parentCategory['description']}}" :message="$errors->first('description')" />
+                                            <div class="fv-plugins-message-container invalid-feedback"></div>
+                                        @error('description')
+                                        <div class="error text-danger">{{ $message }}</div>
+                                        @enderror
+                                    </div>
                             <div class="modal-footer mt-5 gap-2">
                                 <button type="submit" class="btn btn-success">
                                     Edit Parent Category

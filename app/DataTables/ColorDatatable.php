@@ -67,10 +67,12 @@ class ColorDataTable extends DataTable
     {
         $columns = [
             Column::make('id'),
-            Column::make('name')
+            Column::make('name'),
+            Column::make('code')
+
         ];
 
-        if(Auth::user()->can('parent.category.delete'))
+        if(Auth::user()->can('color.delete'))
         {
             $columns = array_merge($columns,[Column::make('action')]);
         }

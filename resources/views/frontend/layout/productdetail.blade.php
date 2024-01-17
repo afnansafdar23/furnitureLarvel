@@ -1,9 +1,46 @@
 @extends('frontend.layout.app')
 
 @section('CoustomCSS')
+<style>
+input[type='radio'] {
+    -webkit-appearance: none;
+    width: 50px;
+    height: 50px;
+    border-radius: 10px;
+    outline: none;
+}
 
+
+input[type='radio']:before {
+        content: '';
+        display: block;
+        width: 40px;
+
+        height: 45px;
+        margin: 5% auto;
+        border-radius: 10px;
+    }
+
+
+
+input[type='radio']:checked {
+    box-shadow: 0 0 0 5px gray;
+
+}
+input[type='radio']:checked::after {
+          /* Heres your symbol replacement - this is a tick in Unicode. */
+    content: '\2713';
+     color: black;
+     position: absolute;
+     padding-left:2px;
+     margin-top: -47px;
+      font-size: 30px;
+      font-weight:bolder;
+
+    }
+</style>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 @endsection
-
 @section('content')
 <!-- Breadcrumb Area Start -->
 <div class="breadcrumb-area bg-dark">
@@ -26,7 +63,9 @@
         <div class="row">
             <div class="col-lg-5 col-md-5 col-sm-12">
                 <div class="single-product-image product-image-slider fix">
+
                 @if(!empty($image))
+
 
                     <div class="p-image"><img id="zoom1" src="{{$image}}" alt="" data-zoom-image="{{$image}}"></div>
 
@@ -52,17 +91,30 @@
                     </div>
                     <span class="p-d-price">{{$product->discounted_price}}</span>
                     <span class="model-stock">In stock <span><span>SKU</span>{{$product->sku}}</span></span>
+
                     <div class="qty-cart-add">
                         <label for="qty">qty</label>
                         <input  type="number" placeholder="1" id="qty">
                         <a href="{{ url('add-to-cart/'.$product->id) }}">Add to cart</a>
+                    </div>
+                    <div class="radio-grid">
+        <!-- Group 1 -->
+        <div class="radio-grid roles">
+    @foreach($colors as $color)
+
+    <input type="radio" style="background-color:{{$color->code}};" name="color" value="{{$color->name}}" class="radio">
+
+
+
+    @endforeach
+</div>
                     </div>
                     <div class="p-d-buttons">
                         <a href="{{ url('add-to-wish/'.$product->id) }}">Add to wish list</a>
                         <a href="#">BUY NOW</a>
 
                     </div>
-                    <p>{{$product->features}}</p>
+                   {!! $product->features !!}
                 </div>
             </div>
         </div>
@@ -79,7 +131,7 @@
                 <div class="tab-pane active show fade" id="tab1" role="tabpanel">
                     <div class="tab-items">
                         <div class="p-details-list">
-                            <p>{{$product->description}}</p>
+                            <p>{!! $product->description !!}</p>
                             <span>Zippered main compartment.</span>
                             <span>Front zippered pocket.</span>
                             <span>Side mesh pocket.</span>

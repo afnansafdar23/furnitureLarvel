@@ -23,7 +23,7 @@ return new class extends Migration
                 $table->integer('price');
                 $table->integer('discounted_price')->nullable();
                 $table->foreignId('parent_category_id')->nullable()->constrained('parent_categories');
-                $table->foreignId('color_id')->nullable();
+                $table->json('color')->nullable();
                 $table->foreignId('child_category_id')->constrained('child_categories');
                 $table->integer('product_length')->nullable();
                 $table->integer('product_weight')->nullable();

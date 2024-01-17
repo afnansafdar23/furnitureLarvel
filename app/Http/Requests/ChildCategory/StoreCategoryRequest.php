@@ -26,7 +26,8 @@ class StoreCategoryRequest extends FormRequest
     {
         return [
             'name' =>   ['required', Rule::unique('parent_categories', 'name')->ignore($this->name)],
-            'parent_category_id' => 'required'
+            'parent_category_id' => 'required',
+            "description"=> "required"
         ];
     }
 }

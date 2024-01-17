@@ -50,8 +50,8 @@
                                             <img class="primary-image" src="{{$product->getFirstMediaUrl('product.image')}}" alt="">
                                         </a>
                                         <div class="product-hover">
-                                        <a href="{{ url('add-to-cart/'.$product->id) }}"  role="button"><i class="icon icon-FullShoppingCart"></i></a>
-                                            <a href="{{ url('add-to-wish/'.$product->id) }}"><i class="icon icon-Heart"></i></a>
+                                        <button class="add-to-cart" data-product-id="{{ $product->id }}"   role="button"><i class="icon icon-FullShoppingCart"></i></button>
+                                            <button class="add-to-wish" data-product-id="{{ $product->id }}"><i class="icon icon-Heart"></i></button>
                                             <a href="{{ url('product-detail/'.$product->name) }}"><i class="icon icon-Files"></i></a>
                                         </div>
                                     </div>
@@ -272,5 +272,8 @@
 @endsection
 
 @section('coustomJS')
+<script>
+
+</script>
 
 @endsection
