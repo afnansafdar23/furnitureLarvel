@@ -25,6 +25,8 @@
         <link rel="stylesheet" href=" {{asset('assets/frontend/css/slick.css')}}">
         <link rel="stylesheet" href=" {{asset('assets/frontend/css/style.css')}}">
         <link rel="stylesheet" href=" {{asset('assets/frontend/css/responsive.css')}}">
+        <link href=" {{asset('assets/plugins/global/plugins.bundle.css')}}" rel="stylesheet" type="text/css"/>
+
 
         @yield('CoustomCSS')
     </head>
@@ -239,6 +241,7 @@
     <!-- Footer Area End -->
 
 		<!-- all js here -->
+        <script src="{{asset('assets/plugins/global/plugins.bundle.js')}}"></script>
         <script src=" {{asset('assets/frontend/js/vendor/modernizr-3.6.0.min.js')}}"></script>
         <script src="{{asset('assets/frontend/js/vendor/jquery-3.6.0.min.js')}}"></script>
         <script src="{{asset('assets/frontend/js/vendor/jquery-migrate-3.3.2.min.js')}}"></script>
@@ -249,6 +252,34 @@
         <script src="{{asset('assets/frontend/js/plugins.js')}}"></script>
         <script src="{{asset('assets/frontend/js/main.js')}}"></script>
         <script type="text/javascript">
+
+$(document).ready(function () {
+
+$('.increment-btn').click(function (e) {
+    e.preventDefault();
+    var incre_value = $(this).parents('.quantity').find('.qty-input').val();
+    var value = parseInt(incre_value, 10);
+    value = isNaN(value) ? 0 : value;
+    if(value<10){
+        value++;
+        $(this).parents('.quantity').find('.qty-input').val(value);
+    }
+
+});
+
+$('.decrement-btn').click(function (e) {
+    e.preventDefault();
+    var decre_value = $(this).parents('.quantity').find('.qty-input').val();
+    var value = parseInt(decre_value, 10);
+    value = isNaN(value) ? 0 : value;
+    if(value>1){
+        value--;
+        $(this).parents('.quantity').find('.qty-input').val(value);
+    }
+});
+
+});
+
 
         $(document).on('click', '.remove-from-cart', function (e) {
 
@@ -295,22 +326,31 @@ $(document).on('click', '.remove-from-wish', function (e) {
 
 
 });
-$(document).ready(function () {
-    $('.add-to-cart').on('click', function () {
-        var productId = $(this).data('product-id');
-        console.log('Product ID:', productId); // Add this line
+$(document).ready(function(){
+    $('#product').submit(function(e){
+        e.preventDefault();
 
+        // Serialize the form data
+        var formData = $('#product').serialize();
 
-        $.ajax({
-            type: 'POST', // Use POST method
-            url: '{{ route("web.addtocart", ["productId" => ":productId"]) }}'.replace(':productId', productId),
-            headers: {
-                'X-CSRF-TOKEN': '{{ csrf_token() }}'
+        // Log the serialized data to the consol
+        $.ajaxSetup({
+            type: 'POST',
+            url: "/add-to-cart",
+            data: formData,
+            async: true,
+            dataType: 'json',
+            beforeSend: function () {
+                // You can add any code here to be executed before the request is sent
             },
-            success: function (response) {
-                // Check the console for the response
+            complete: function(){
+                // You can add any code here to be executed after the request is completed
+            }
+        });
 
-                if (response.redirect) {
+        $.post()
+        .done(function(response) {
+            if (response.redirect) {
                     // Handle redirect
                     window.location.href = response.redirect;
                 } else {
@@ -318,25 +358,16 @@ $(document).ready(function () {
                     updateCart(response.cartSection);
                     // Other actions...
                 }
-
-
-                // Show the cart message
-
-            },
-            error: function (error) {
-                // Check the console for errors
-                console.error('Error adding to cart:', error);
-            }
+        })
+        .fail(function() {
+            console.log('failed');
         });
     });
     function updateCart(cartHtml) {
     // Update the cart section with the new HTML content
     $('#addcart').html(cartHtml);
 }
-
-
 });
-
 $(document).ready(function () {
     $('.add-to-wish').on('click', function () {
         var productId = $(this).data('product-id');

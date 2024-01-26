@@ -119,7 +119,7 @@
 
 
  <!-- Feature Product Area Start -->
- <div class="product-area text-cen ter pt-90 pb-85">
+ <div class="product-area text-cen ter pt-90">
     <div class="container">
         <div class="section-title">
             <span>new Items</span>

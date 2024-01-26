@@ -48,56 +48,11 @@
                                         <div class="error text-danger">{{ $message }}</div>
                                         @enderror
                                     </div>
-                                    <div class="col-6">
-                                        <x-textarea type='text' name="description" value="{{$childCategory['description']}}"  label="Description" class="col-12"
-                                            placeholder="{{$childCategory['description']}}" :message="$errors->first('description')" />
-                                            <div class="fv-plugins-message-container invalid-feedback"></div>
-                                        @error('description')
-                                        <div class="error text-danger">{{ $message }}</div>
-                                        @enderror
-                                    </div>
-                                    <!--end::Col-->
-                                    <!--begin::Col-->
-                                    <div class="col-lg-6 fv-row fv-plugins-icon-container">
-                                        <label class="col-lg-8 col-form-label required fw-bold fs-6">Category
-                                            Sub Name</label>
-                                        <input type="text" value="{{ $childCategory['sub_name'] }}" name="sub_name"
-                                            placeholder="{{ $childCategory['sub_name'] }}"
-                                            class="form-control form-control-lg form-control-solid mb-lg-0 mb-3">
-                                        <div class="fv-plugins-message-container invalid-feedback"></div>
-                                        @error('sub_name')
-                                        <div class="error text-danger">{{ $message }}</div>
-                                        @enderror
-                                    </div>
-                                    <!--end::Col-->
-                                    <!--begin::Col-->
-                                    <div class="col-lg-6 fv-row fv-plugins-icon-container">
-                                        <label class="col-lg-8 col-form-label required fw-bold fs-6">Description</label>
-                                        <textarea type="text" value="{{ $childCategory['desccription'] }}"
-                                            name="description" placeholder="{{ $childCategory['desccription'] }}"
-                                            class="form-control form-control-lg form-control-solid mb-lg-0 mb-3">{{$childCategory['description']}}</textarea>
-                                        <div class="fv-plugins-message-container invalid-feedback"></div>
-                                        @error('desccription')
-                                        <div class="error text-danger">{{ $message }}</div>
-                                        @enderror
-                                    </div>
-                                    <!--end::Col-->
-                                    <!--begin::Col-->
-                                    <div class="col-lg-6 fv-row fv-plugins-icon-container">
-                                        <label class="col-lg-8 col-form-label required fw-bold fs-6">Sub
-                                            Description</label>
-                                        <textarea type="text" value="{{ $childCategory['sub_description'] }}"
-                                            name="sub_description" placeholder="{{ $childCategory['sub_description'] }}"
-                                            class="form-control form-control-lg form-control-solid mb-lg-0 mb-3">{{$childCategory['sub_description']}}</textarea>
-                                        <div class="fv-plugins-message-container invalid-feedback"></div>
-                                        @error('sub_description')
-                                        <div class="error text-danger">{{ $message }}</div>
-                                        @enderror
-                                    </div>
-                                    <!--end::Col-->
-                                    <!--begin::Col-->
-                                    <div class="col-lg-12 fv-row fv-plugins-icon-container">
-                                        <label for="" class="form-label">Parent Category</label>
+                                     <!--end::Col-->
+                                      <!--begin::Col-->
+                                      <div class="col-lg-6 fv-row fv-plugins-icon-container">
+                                      <label class="col-lg-8 col-form-label required fw-bold fs-6">Parent Category
+                                            </label>
                                         <select class="form-select form-select-solid " name="parent_category_id"
                                             data-control="select2" data-placeholder="Select an option"
                                             data-allow-clear="true">
@@ -113,6 +68,22 @@
                                     <div class="error text-danger">{{ $message }}</div>
                                     @enderror
                                     <!--end::Col-->
+
+
+                                    <!--begin::Col-->  <label class="col-lg-8 col-form-label required fw-bold fs-6">Description</label>
+                                    <div class="col-lg-12 fv-row fv-plugins-icon-container">
+
+                                        <textarea type="text" value="{{ $childCategory['desccription'] }}"
+                                            name="description" placeholder="{{ $childCategory['desccription'] }}"
+                                            class="form-control form-control-lg form-control-solid mb-lg-0 mb-3">{{$childCategory['description']}}</textarea>
+                                        <div class="fv-plugins-message-container invalid-feedback"></div>
+                                        @error('desccription')
+                                        <div class="error text-danger">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+                                    <!--end::Col-->
+
+
                                 </div>
                             </div>
                             <div class="modal-footer mt-5 gap-2">

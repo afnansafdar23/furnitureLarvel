@@ -91,24 +91,56 @@ input[type='radio']:checked::after {
                     </div>
                     <span class="p-d-price">{{$product->discounted_price}}</span>
                     <span class="model-stock">In stock <span><span>SKU</span>{{$product->sku}}</span></span>
+                     <form id="product">
 
-                    <div class="qty-cart-add">
+                     {{ csrf_field() }}
+                    <div class="qty-cart-add quantity">
+
                         <label for="qty">qty</label>
-                        <input  type="number" placeholder="1" id="qty">
-                        <a href="{{ url('add-to-cart/'.$product->id) }}">Add to cart</a>
+                         <div class="input-group-prepend decrement-btn" style="cursor: pointer">
+                         <span class="input-group-text">-</span>
+                      </div>
+                        <input  type="number" name="quantity"  class="qty-input" style="border:none; border-radius:3px; margin:0px 4px 0px 4px; background-color:lightgray; font-weight:bold;" placeholder="1" id="qty">
+                        <div class="input-group-append increment-btn" style="cursor: pointer">
+                         <span class="input-group-text">+</span>
+                          </div>
+                          <button type="submit">Add to cart</button>
+
                     </div>
                     <div class="radio-grid">
         <!-- Group 1 -->
         <div class="radio-grid roles">
     @foreach($colors as $color)
 
-    <input type="radio" style="background-color:{{$color->code}};" name="color" value="{{$color->name}}" class="radio">
-
-
-
+    <input type="radio"  name="color"  value="{{$color->name}}" class="radio"  style="background-color:{{$color->code}};"
+        @if ($color->id == 1)
+          checked
+       @endif   >
     @endforeach
 </div>
+
                     </div>
+                    <div class="selected-value col-6 mt-2">
+    <select  class="form-select form-select-transparent" data-control="select2" name="size" id="size">
+
+
+    @foreach ($size as $size)
+       <option
+
+        @if ($size->id == 2)
+          selected
+       @endif
+         >{{$size->name}}({{$size->dimension}})inch</option>"
+         @endforeach
+
+
+
+    </select>
+    <input type="text" name="id" value="{{$product->id}}" hidden>
+
+</div>
+
+</form>
                     <div class="p-d-buttons">
                         <a href="{{ url('add-to-wish/'.$product->id) }}">Add to wish list</a>
                         <a href="#">BUY NOW</a>
@@ -332,5 +364,52 @@ input[type='radio']:checked::after {
 @endsection
 
 @section('coustomJS')
+<script type="text/javascript">
+
+</script>
+<script>
+ $(document).ready(function(){
+    $('#product').submit(function(e){
+        e.preventDefault();
+
+        // Serialize the form data
+        var formData = $('#product').serialize();
+
+        // Log the serialized data to the consol
+        $.ajaxSetup({
+            type: 'POST',
+            url: "/add-to-cart",
+            data: formData,
+            async: true,
+            dataType: 'json',
+            beforeSend: function () {
+                // You can add any code here to be executed before the request is sent
+            },
+            complete: function(){
+                // You can add any code here to be executed after the request is completed
+            }
+        });
+
+        $.post()
+        .done(function(response) {
+            if (response.redirect) {
+                    // Handle redirect
+                    window.location.href = response.redirect;
+                } else {
+                    // Update the cart section with the new HTML content
+                    updateCart(response.wishSection);
+                    // Other actions...
+                }
+        })
+        .fail(function() {
+            console.log('failed');
+        });
+    });
+    function updateCart(cartHtml) {
+    // Update the cart section with the new HTML content
+    $('#addcart').html(cartHtml);
+}
+});
+</script>
 
 @endsection

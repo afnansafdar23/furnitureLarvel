@@ -21,6 +21,7 @@ class Product extends Model implements HasMedia
         'parent_category_id',
         'child_category_id',
         'color',
+        'size',
         'product_length',
         'product_weight',
         'product_height',
@@ -32,9 +33,20 @@ class Product extends Model implements HasMedia
         {
             $this->attributes['color'] = json_encode($value);
         }
+        public function setSizeAttribute($value)
+        {
+            $this->attributes['size'] = json_encode($value);
+        }
+        
+        // Accessor to convert JSON string to an array when getting the attribute
+        
 
         // Accessor to convert JSON string to an array when getting the attribute
         public function getColorAttribute($value)
+        {
+            return json_decode($value, true);
+        }
+        public function getSizeAttribute($value)
         {
             return json_decode($value, true);
         }
@@ -52,3 +64,4 @@ class Product extends Model implements HasMedia
     return $this->belongsToMany(Color::class);
 }
 }
+

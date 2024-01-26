@@ -11,6 +11,7 @@ use App\Models\Color;
 
 use App\Models\ParentCategory;
 use App\Models\Product;
+use App\Models\productSize;
 use Exception;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -40,9 +41,11 @@ class ProductController extends Controller
         $parentCategories = ParentCategory::all();
         $childCategories = ChildCategory::all();
         $color = Color::all();
+        $size = productSize::all();
         return view('admin.product.create')->with(['parentCategories' => $parentCategories,
     'childCategories'=>$childCategories,
-    'color'=>$color]);
+    'color'=>$color ]
+    );
 
     }
 
@@ -62,6 +65,8 @@ class ProductController extends Controller
                $validatedData =  $request->validated();
              // Convert color array to JSON before storing
              $validatedData['color'] = $request->input('color', []);
+             $validatedData['size'] = $request->input('size', []);
+             
 
             $product = Product::create($validatedData);
 

@@ -32,7 +32,7 @@
                                         <label class="col-lg-8 col-form-label required fw-bold fs-6">Image</label>
                                         @include('admin.media.dropdown',['file' => $product,
                                         'collection_name' => 'product.image',])
-                                        {{dd($product->getFirstMediaUrl('product.image'))}}
+                                        {{$product->getFirstMediaUrl('product.image')}}
                                     </div>
                                     <div class="col-12">
                                         <x-cento-dash-input type="text" name="name" label="Name" placeholder="Name"
@@ -102,8 +102,24 @@
                                             :message="$errors->first('product_width')" />
                                     </div>
                                     <div class="col-6">
-                                        <x-cento-dash-input type="select" name="color_id" label="Color"
-                                            :options="$color" :message="$errors->first('color_id')" />
+
+
+                                            <select id="color" name="color[]" multiple >
+                                                @foreach($color as $color)
+                                                <option value="{{$color->id}}">{{$color->name}}</option>
+                                                @endforeach
+                                            </select>
+
+                                    </div>
+                                    <div class="col-6">
+
+
+                                            <select id="color" name="color[]" multiple >
+                                                @foreach($size as $size)
+                                                <option value="{{$size->id}}">{{$size->dimension}}</option>
+                                                @endforeach
+                                            </select>
+
                                     </div>
                                     <div class="col-sm-3 my-4">
                                         <label class="form-check form-switch form-check-custom form-check-solid">

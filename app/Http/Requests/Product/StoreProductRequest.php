@@ -34,6 +34,7 @@ class StoreProductRequest extends FormRequest
             'parent_category_id' => 'required',
             'child_category_id' => 'nullable',
             'color' => 'required',
+            'size' => 'required',
             'product_length' => 'required',
             'product_weight' => 'required',
             'product_height' => 'required',

@@ -51,21 +51,32 @@
                                             label="Discounted Price" placeholder="Discounted Price"
                                             :message="$errors->first('discounted_price')" />
                                     </div>
-                                    <div class="col-6">
+
+                                    <label class="col-lg-12 col-form-label required fw-bold fs-6">Description</label>
+                                    <div class="col-12">
                                         <x-textarea type='text' name="description" label="Description" class="col-12"
                                             placeholder="Enter Description" :message="$errors->first('description')" />
                                     </div>
-                                    <div class="col-6">
+                                    <label class="col-lg-12 col-form-label required fw-bold fs-6">Key Feture</label>
+                                    <div class="col-12">
                                         <x-textarea type='text' name="features" label="Key Features" class="col-12"
                                             placeholder="Enter Features" :message="$errors->first('features')" />
                                     </div>
                                     <div class="col-6">
-                                        <x-cento-dash-input type="select" name="parent_category_id"
-                                            label="Parent Category" :options="$parentCategories"
-                                            :message="$errors->first('parent_category_id')" />
+                                    <label class="col-lg-12 col-form-label required fw-bold fs-6"> Select Parent Category
+                                           </label>
+                                        <select name="parent_category_id" class="form-select form-select-solid is-valid" data-allow-clear="true" data-control="select2" id="parent">
+                                            <option value="" selected disabled>Select Category</option>
+                                            @foreach ($parentCategories as $item)
+                                            <option value="{{ $item['id'] }}"> {{ $item['name'] }}</option>
+                                            @endforeach
+                                        </select>
+
                                     </div>
                                     <div class="col-6">
-                                        <x-cento-dash-input type="select" name="child_category_id" label="Child Category"
+                                    <label class="col-lg-12 col-form-label required fw-bold fs-6"> Select Child Category
+                                           </label>
+                                        <x-cento-dash-input type="select" id="child-dropdown" name="child_category_id" label=""
                                             :options="$childCategories" :message="$errors->first('child_category_id')" />
                                     </div>
 
@@ -90,7 +101,7 @@
                                         <x-cento-dash-input type="number" name="product_width" label="Product Width"
                                             placeholder="product_width" :message="$errors->first('product_width')" />
                                     </div>
-                                    <div class="col-12">
+                                    <div class="col-3">
 
 
                                             <select id="color" name="color[]" multiple >
@@ -100,6 +111,15 @@
                                             </select>
 
                                     </div>
+                                    <div class="col-3">
+
+
+                                        <select id="size" class="form-control form-control-sm"  name="size[]" multiple >
+
+
+                                        </select>
+
+                                        </div>
                                     <div class="col-sm-3 my-4">
                                         <label class="form-check form-switch form-check-custom form-check-solid">
                                             <input class="form-check-input" type="checkbox" name="availability" />
@@ -120,6 +140,60 @@
             </form>
         </div>
         <!--end:::Main-->
+
+        @section('js')
+        <script>
+           $(document).ready(function() {
+    $('#parent').on('change', function() {
+        var parentid = $(this).val();
+        if (parentid) {
+            $.ajax({
+                url: '/getsize/' + parentid,
+                type: "GET",
+                data: {"_token": "{{ csrf_token() }}"},
+                dataType: "json",
+                success: function(data) {
+                    if (data) {
+                        console.log(size);
+                        $('#size').empty();
+                        $('#size').append('<option hidden>Choose Size</option>');
+                        $.each(data, function(key, size) {
+                            $('select[name="size[]"]').append('<option value="' + size.id + '">' + size.dimension + '</option>');
+                            $('#size').multiselect('rebuild');
+
+                        });
+                    } else {
+                        $('#size').empty();
+                    }
+                }
+            });
+        } else {
+            $('#size').empty();
+        }
+    });
+});
+
+        </script>
+
+        <script>
+    $(function () {
+                // Summernote
+                $('textarea').summernote({
+                    height: '200px',
+                    tabsize: 2
+
+                });
+                $('#color').multiselect({
+		nonSelectedText: 'Select Colors'
+	});
+    $('#size').multiselect({
+		nonSelectedText: 'Select Size'
+	});
+            });
+            </script>
+
+
+        @endsection
     </x-slot>
     <x-slot name="footer">
         <x-layout.footer />

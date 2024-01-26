@@ -22,9 +22,10 @@ return new class extends Migration
                 $table->longText('features');
                 $table->integer('price');
                 $table->integer('discounted_price')->nullable();
-                $table->foreignId('parent_category_id')->nullable()->constrained('parent_categories');
+                $table->foreignId('parent_category_id')->constrained('parent_categories');
                 $table->json('color')->nullable();
-                $table->foreignId('child_category_id')->constrained('child_categories');
+                $table->json('size')->nullable();
+                $table->foreignId('child_category_id')->nullable()->constrained('child_categories');
                 $table->integer('product_length')->nullable();
                 $table->integer('product_weight')->nullable();
                 $table->integer('product_height')->nullable();

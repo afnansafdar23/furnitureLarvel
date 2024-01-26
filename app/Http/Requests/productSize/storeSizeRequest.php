@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Requests\ChildCategory;
+namespace App\Http\Requests\productSize;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
-class StoreCategoryRequest extends FormRequest
+class storeSizeRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,9 +25,10 @@ class StoreCategoryRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' =>   ['required', Rule::unique('child_categories', 'name')->ignore($this->name)],
+            'name' =>   ['required', Rule::unique('product_sizes', 'name')->ignore($this->name)],
             'parent_category_id' => 'required',
-            "description"=> "required"
+            'child_category_id' => 'nullable',
+            "dimension"=> "required"
         ];
     }
 }

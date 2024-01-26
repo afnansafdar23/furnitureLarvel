@@ -2,7 +2,9 @@
 
 namespace App\DataTables;
 
-use App\Models\Color;
+use App\Models\productSize;
+use App\Models\ParentCategory;
+use App\Models\ChildCategory;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 use Illuminate\Support\Facades\Auth;
 use Yajra\DataTables\EloquentDataTable;
@@ -12,7 +14,7 @@ use Yajra\DataTables\Html\Column;
 use Yajra\DataTables\Services\DataTable;
 
 
-class ColorDataTable extends DataTable
+class ProductSizeDatatable extends DataTable
 {
     /**
      * Build DataTable class.
@@ -22,8 +24,12 @@ class ColorDataTable extends DataTable
      */
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
-        return (new EloquentDataTable($query))
-            ->addColumn('action', 'admin.color-pallet.datatables_actions')
+        return (new EloquentDataTable( $query))
+            ->addColumn('action', 'admin.Product-size.datatables_actions')
+            ->addColumn('parent_category_id', function (productSize $product) {
+                return $product->parentCategory->name;})
+           ->addColumn('child_category_id', function (productSize $product) {
+                    return $product->childCategory->name;})
             ->rawColumns(['delete','action'])
             ->setRowId('id');
     }
@@ -34,9 +40,9 @@ class ColorDataTable extends DataTable
      * @param \App\Models\ParentCategory $model
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function query(Color $model): QueryBuilder
+    public function query(productSize $model): QueryBuilder
     {
-        return $model->newQuery()->select('id', 'name', 'code');
+        return $model->newQuery()->select('id', 'name', 'dimension', 'parent_category_id', 'child_category_id');
     }
 
     /**
@@ -47,7 +53,7 @@ class ColorDataTable extends DataTable
     public function html(): HtmlBuilder
     {
         return $this->builder()
-            ->setTableId('color-pallet-table')
+            ->setTableId('size-table')
             ->columns($this->getColumns())
             ->minifiedAjax()
             //->dom('Bfrtip')
@@ -68,11 +74,14 @@ class ColorDataTable extends DataTable
         $columns = [
             Column::make('id'),
             Column::make('name'),
-            Column::make('code')
+            Column::make('dimension'),
+            Column::make('child_category_id')->title('Child Category'),
+            Column::make('parent_category_id')->title('Parent Category')
+
 
         ];
 
-        if(Auth::user()->can('color.delete'))
+        if(Auth::user()->can('size.delete'))
         {
             $columns = array_merge($columns,[Column::make('action')]);
         }
@@ -87,6 +96,6 @@ class ColorDataTable extends DataTable
      */
     protected function filename(): string
     {
-        return 'Color_' . date('YmdHis');
+        return 'ProductSize_' . date('YmdHis');
     }
 }

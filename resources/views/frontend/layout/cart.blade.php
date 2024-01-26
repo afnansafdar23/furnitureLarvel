@@ -31,7 +31,8 @@
                                         </div>
                                         <div class="cart-p-text">
                                             <a  class="cart-p-name">{{ $details['name'] }}</a>
-                                            <span>{{ $details['price'] }}</span>
+                                            <span>{{ $details['quantity'] }}</span>
+                                            <span>{{ $details['size'] }}</span>
                                             <div class="cart-p-qty">
                                                 <label>Qty</label>
                                                 <input type="text" placeholder="1">

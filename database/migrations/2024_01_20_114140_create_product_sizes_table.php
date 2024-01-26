@@ -13,17 +13,16 @@ return new class extends Migration
      */
     public function up()
     {
-        if (!Schema::hasTable('child_categories')) {
-        Schema::create('child_categories', function (Blueprint $table) {
+        Schema::create('product_sizes', function (Blueprint $table) {
             $table->id();
-            $table->string('name', '155');
-            $table->longText('description');
+             $table->string('name', '155');
+            $table->longText('dimension');
             $table->foreignId('parent_category_id')->constrained('parent_categories');
+            $table->foreignId('child_category_id')->nullable()->constrained('child_categories');
             $table->softDeletes();
             $table->timestamps();
         });
     }
-}
 
     /**
      * Reverse the migrations.
@@ -32,12 +31,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('child_categories');
+        Schema::dropIfExists('product_sizes');
     }
-     /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
-
 };

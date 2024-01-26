@@ -7,6 +7,7 @@ use App\Models\ChildCategory;
 use App\Models\Color;
 use App\Models\ParentCategory;
 use App\Models\Product;
+use App\Models\productSize;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -109,41 +110,56 @@ if($pid->isEmpty())
             'category' =>$category,
         ]);
     }
-    public function addToCart($productId)
+    public function addtocart(Request $request)
+
     {
-       if(Auth::user()){
-         // Sample product information retrieval, replace it with your logic
-         $product = Product::find($productId);
+   // Retrieve individual form fields
+   $quantity = $request->input('quantity');
+   $color = $request->input('color');
+   $size = $request->input('size');
+   $id = $request->input('id');
 
-         // Get the existing cart from the session or initialize an empty array
-         $cart = Session::get('cart', []);
 
-         // Check if the product already exists in the cart
-         if (array_key_exists($productId, $cart)) {
-             // Product already exists, increase quantity
-             $cart[$productId]['quantity'] += 1;
-         } else {
-             // Product doesn't exist, add it to the cart
-             $productImage =  $product->getFirstMediaUrl('product.image');
-             $cart[$productId] = [
-                 "name" => $product->name,
-                 "quantity" => 1,
-                 "price" => $product->discounted_price,
-                 "photo" => $productImage
-                 // Add other product details as needed
-             ];
-         }
 
-         // Save the updated cart array to the session
-         Session::put('cart', $cart);
 
-         // Return a JSON response (optional)
-         return response()->json(['cartSection' => view('frontend.layout.cart')->render()]);
+   if (Auth::user()) {
+    $product = Product::find($id);
 
-       }else{
-        return response()->json(['redirect' => route('auth.login')]);
+    // Get the existing cart from the session or initialize an empty array
+    $wish = Session::get('cart', []);
+
+    // Check if the product already exists in the cart
+
+        // Product doesn't exist, add it to the cart
+        $productImage =  $product->getFirstMediaUrl('product.image');
+        $wish[$id] = [
+            "name" => $product->name,
+            "quantity" => $quantity ,
+            "price" => $product->discounted_price,
+            "photo" => $productImage,
+            "size" => $size,
+            "color" => $color
+
+
+            // Add other product details as needed
+        ];
+
+
+    // Save the updated cart array to the session
+    Session::put('cart', $wish);
+
+    // Return a JSON response (optional)
+    return response()->json(['cartSection' => view('frontend.layout.cart')->render()]);
+} else {
+    // Redirect to the login route
+    return response()->json(['redirect' => route('auth.login')]);
+}
+
+
+
+
        }
-    }
+
     public function addtowishlist($productId)
     {
         // Sample product information retrieval, replace it with your logic
@@ -165,6 +181,8 @@ if($pid->isEmpty())
                     "quantity" => 1,
                     "price" => $product->discounted_price,
                     "photo" => $productImage
+
+
                     // Add other product details as needed
                 ];
             }
@@ -231,6 +249,7 @@ if($pid->isEmpty())
         $products= Product::where("name",$name)->first();
 
         $colors = Color::whereIn('id', $products->color)->get();
+        $size = productSize::whereIn('id', $products->size)->get();
 
 
         if (!$products) {
@@ -250,6 +269,7 @@ return view('frontend.layout.productdetail')->with([
     'product' => $products,
     'image' => $productImage,
     'colors' => $colors,
+    'size' => $size
 ]);
 
 

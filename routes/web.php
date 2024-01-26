@@ -11,6 +11,7 @@ use App\Http\Controllers\Admin\SubCategoryController;
 use App\Http\Controllers\Admin\UploadController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\ChildCategoryController;
+use App\Http\Controllers\Admin\productSizeController;
 use App\Http\Controllers\Admin\SettingController;
 use App\Http\Controllers\frontend\DefaultController;
 use App\Http\Controllers\PostController;
@@ -82,7 +83,7 @@ Route::controller(AuthController::class)
         Route::view('/Privacy-Policy', 'frontend.layout.privacypolicy')->name('privacy');
         Route::view('/FAQ', 'frontend.layout.faq')->name('faq');
 
-        Route::post('add-to-cart/{productId}',  'addtocart')->name('addtocart');
+        Route::post('add-to-cart',  'addtocart')->name('addtocart');
         Route::post('add-to-wish/{productId}', 'addtowishlist')->name('addtowish');
         Route::get('/check-out', 'checkout')->name('checkout');
         Route::get('/cart', 'cart')->name('cart');
@@ -92,6 +93,12 @@ Route::controller(AuthController::class)
 
         Route::delete('delete-cart', 'deletecart')->name('deletecart');
         Route::get('product/detail/{product}', 'productDetails')->name('prod.detail');
+        Route::get('getsize/{id}', function ($id) {
+
+            $size = App\Models\productSize::where('parent_category_id',$id)->get();
+            return response()->json($size);
+        });
+
     });
 
 });
@@ -187,6 +194,17 @@ Route::middleware('auth')->group(function () {
                 Route::post('store', 'store')->name('store');
                 Route::get('delete/{color}', 'destroy')->name('delete');
             });
+             // Product Size Route
+            Route::controller(productSizeController::class)
+            ->prefix('size')
+            ->name('size.')
+            ->group(function () {
+                Route::get('', 'index')->name('index');
+                Route::get('create', 'create')->name('create');
+                Route::post('store', 'store')->name('store');
+                Route::get('delete/{size}', 'destroy')->name('delete');
+            });
+
             // Setting Routes
             Route::controller(SettingController::class)
             ->prefix('setting')

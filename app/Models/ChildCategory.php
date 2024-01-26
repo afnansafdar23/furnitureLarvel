@@ -26,4 +26,6 @@ class ChildCategory extends Model implements HasMedia
     {
         return $this->hasMany(Product::class);
     }
+
 }
+

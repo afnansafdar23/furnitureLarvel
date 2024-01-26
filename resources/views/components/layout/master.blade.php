@@ -5353,6 +5353,10 @@
     <script>
         var hostUrl = "assets/";
     </script>
+    =
+
+
+
     <!--begin::Global Javascript Bundle(mandatory for all pages)-->
     <script src="assets/plugins/global/plugins.bundle.js"></script>
     <script src="assets/js/scripts.bundle.js"></script>
@@ -5376,18 +5380,10 @@
       <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-multiselect/0.9.13/js/bootstrap-multiselect.js"></script>
     <script src=" {{asset('assets/plugins/summernote/summernote.min.js')}}"></script>
     <script src="plugins/summernote/summernote.min.js"></script>
-    <script>
-    $(function () {
-                // Summernote
-                $('textarea').summernote({
-                    height: '200px',
-                    tabsize: 2
+    @yield('js')
 
-                });
-                $('#color').multiselect({
-		nonSelectedText: 'Select Colors'
-	});
-            });</script>
+
+
     {{-- <script src="{{asset('vendor/laravel-filemanager/js/dropzone.min.js')}}"></script> --}}
     <!--end::Custom Javascript-->
     <!--end::Javascript-->
