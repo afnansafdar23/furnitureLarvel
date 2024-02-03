@@ -84,8 +84,10 @@ Route::controller(AuthController::class)
         Route::view('/FAQ', 'frontend.layout.faq')->name('faq');
 
         Route::post('add-to-cart',  'addtocart')->name('addtocart');
+        Route::post('/update-cart', 'updateCart')->name('updatecart');
         Route::post('add-to-wish/{productId}', 'addtowishlist')->name('addtowish');
         Route::get('/check-out', 'checkout')->name('checkout');
+        Route::post('/payment', 'payment')->name('payment');
         Route::get('/cart', 'cart')->name('cart');
         Route::get('/wish', 'wish')->name('wish');
         Route::delete('delete-wish', 'deletewish')->name('deletewish');
@@ -97,6 +99,17 @@ Route::controller(AuthController::class)
 
             $size = App\Models\productSize::where('parent_category_id',$id)->get();
             return response()->json($size);
+        });
+        Route::get('getproduct/{id}', function ($id) {
+
+            $products = App\Models\Product::where('parent_category_id', $id)->get();
+
+            $productsWithMedia = $products->map(function ($product) {
+                $product->image_url = $product->getFirstMediaUrl('product.image');
+                return $product;
+            });
+
+            return response()->json($productsWithMedia);
         });
 
     });

@@ -100,7 +100,7 @@ input[type='radio']:checked::after {
                          <div class="input-group-prepend decrement-btn" style="cursor: pointer">
                          <span class="input-group-text">-</span>
                       </div>
-                        <input  type="number" name="quantity"  class="qty-input" style="border:none; border-radius:3px; margin:0px 4px 0px 4px; background-color:lightgray; font-weight:bold;" placeholder="1" id="qty">
+                        <input  type="number" name="quantity"  class="qty-input" style="border:none; border-radius:3px; margin:0px 4px 0px 4px; background-color:lightgray; font-weight:bold;" placeholder="0" id="qty" min="1" value="1">
                         <div class="input-group-append increment-btn" style="cursor: pointer">
                          <span class="input-group-text">+</span>
                           </div>
@@ -368,48 +368,7 @@ input[type='radio']:checked::after {
 
 </script>
 <script>
- $(document).ready(function(){
-    $('#product').submit(function(e){
-        e.preventDefault();
 
-        // Serialize the form data
-        var formData = $('#product').serialize();
-
-        // Log the serialized data to the consol
-        $.ajaxSetup({
-            type: 'POST',
-            url: "/add-to-cart",
-            data: formData,
-            async: true,
-            dataType: 'json',
-            beforeSend: function () {
-                // You can add any code here to be executed before the request is sent
-            },
-            complete: function(){
-                // You can add any code here to be executed after the request is completed
-            }
-        });
-
-        $.post()
-        .done(function(response) {
-            if (response.redirect) {
-                    // Handle redirect
-                    window.location.href = response.redirect;
-                } else {
-                    // Update the cart section with the new HTML content
-                    updateCart(response.wishSection);
-                    // Other actions...
-                }
-        })
-        .fail(function() {
-            console.log('failed');
-        });
-    });
-    function updateCart(cartHtml) {
-    // Update the cart section with the new HTML content
-    $('#addcart').html(cartHtml);
-}
-});
 </script>
 
 @endsection

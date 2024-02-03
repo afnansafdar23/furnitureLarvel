@@ -1,6 +1,35 @@
 @extends('frontend.layout.app')
 
 @section('CoustomCSS')
+<style>
+input[type="radio"]{
+   appearance: none;
+   border: 1px solid #d3d3d3;
+   width: 14px;
+   height: 14px;
+   content: none;
+   outline: none;
+   margin: 10;
+   margin-top: 10px;
+
+}
+input[type="radio"]:checked {
+  appearance: none;
+  outline: none;
+  padding: 0;
+  content: none;
+  border: none;
+}
+
+input[type="radio"]:checked::before{
+  position: absolute;
+  color: green !important;
+  content: "\00A0\2713\00A0" !important;
+margin-top: 8px;
+  font-weight: bolder;
+  font-size: 10px;
+}
+</style>
 
 @endsection
 
@@ -35,40 +64,11 @@
                 @endif
                 <div class="ht-product-shop tab-content">
                     <div class="tab-pane active show fade text-center" id="grid" role="tabpanel">
-                        <div class="row">
+                        <div class="row" id="product-container">
 
 
 
 
-
-                          @foreach($product as $product)
-
-                            <div class="col-xl-3 col-lg-4 col-md-4 col-sm-6 col-xs-12">
-                                <div class="product-item">
-                                    <div class="product-image-hover">
-                                        <a href="{{ url('product-detail/'.$product->name) }}">
-                                            <img class="primary-image" src="{{$product->getFirstMediaUrl('product.image')}}" alt="">
-                                        </a>
-                                        <div class="product-hover">
-                                        <button class="add-to-cart" data-product-id="{{ $product->id }}"   role="button"><i class="icon icon-FullShoppingCart"></i></button>
-                                            <button class="add-to-wish" data-product-id="{{ $product->id }}"><i class="icon icon-Heart"></i></button>
-                                            <a href="{{ url('product-detail/'.$product->name) }}"><i class="icon icon-Files"></i></a>
-                                        </div>
-                                    </div>
-                                    <div class="product-text">
-                                        <div class="product-rating">
-                                            <i class="fa fa-star color"></i>
-                                            <i class="fa fa-star color"></i>
-                                            <i class="fa fa-star color"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                        </div>
-                                        <h4><a href="{{ url('product-detail/'.$product->name) }}">{{$product->name}}</a></h4>
-                                        <div class="product-price"><span>${{$product->discounted_price}}</span><span class="prev-price">${{$product->price}}</span></div>
-                                    </div>
-                                </div>
-                            </div>
-                            @endforeach
 
 
 
@@ -102,69 +102,23 @@
                         <a data-bs-toggle="collapse" href="#category" data-parent="#widget-parent">Category</a>
                         <div class="collapse show" id="category">
                             <div class="collapse-content">
-                                <div class="single-widget-opt">
-                                    <input type="checkbox" id="tables">
-                                    <label for="tables">Dining tables <span>(4)</span></label>
-                                </div>
-                                <div class="single-widget-opt">
-                                    <input type="checkbox" id="chairs">
-                                    <label for="chairs">Dining chairs <span>(8)</span></label>
-                                </div>
-                                <div class="single-widget-opt">
-                                    <input type="checkbox" id="sets">
-                                    <label for="sets">Dining sets <span>(5)</span></label>
-                                </div>
+                            <div class="single-widget-opt">
+                                        <input type="radio" style="border-radius:none;" id="tables"  name="cate" checked>
+                                        <label for="tables">ALL Products</label>
+                                    </div>
+                            @foreach($categories as $category)
+                                    <div class="single-widget-opt">
+                                        <input type="radio" name="cate" class="category-checkbox" value="{{ $category->id }}" id="tables">
+                                        <label for="tables">{{ $category->name }}<span>({{ $category->products->count() }})</span></label>
+                                    </div>
+                                @endforeach
+
+
                             </div>
                         </div>
                     </div>
-                    <div class="panel widget-option">
-                        <a class="collapsed" data-bs-toggle="collapse" href="#color" data-parent="#widget-parent">Color</a>
-                        <div class="collapse" id="color">
-                            <div class="collapse-content">
-                                <div class="widget-color">
-                                    <span class="black"></span>
-                                    <span class="blue"></span>
-                                    <span class="gray"></span>
-                                    <span class="green"></span>
-                                    <span class="white"></span>
-                                    <span class="purple"></span>
-                                    <span class="red"></span>
-                                    <span class="white"></span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="panel widget-option">
-                        <a class="collapsed" data-bs-toggle="collapse" href="#manufacture" data-parent="#widget-parent">Manufacturer</a>
-                        <div class="collapse" id="manufacture">
-                            <div class="collapse-content">
-                                <div class="single-widget-opt">
-                                    <input type="checkbox" id="adidas">
-                                    <label for="adidas">Adidas <span>(1)</span></label>
-                                </div>
-                                <div class="single-widget-opt">
-                                    <input type="checkbox" id="chanel">
-                                    <label for="chanel">Chanel <span>(4)</span></label>
-                                </div>
-                                <div class="single-widget-opt">
-                                    <input type="checkbox" id="dkny">
-                                    <label for="dkny">DKNY <span>(2)</span></label>
-                                </div>
-                                <div class="single-widget-opt">
-                                    <input type="checkbox" id="dolce">
-                                    <label for="dolce">Dolce <span>(5)</span></label>
-                                </div>
-                                <div class="single-widget-opt">
-                                    <input type="checkbox" id="gabbana">
-                                    <label for="gabbana">Gabbana <span>(1)</span></label>
-                                </div>
-                                <div class="single-widget-opt">
-                                    <input type="checkbox" id="nike">
-                                    <label for="nike">Nike <span>(2)</span></label>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+
+
                     <div class="panel widget-option">
                         <a class="collapsed" data-bs-toggle="collapse" href="#price" data-parent="#widget-parent">Price</a>
                         <div class="collapse" id="price">
@@ -272,8 +226,69 @@
 @endsection
 
 @section('coustomJS')
-<script>
 
+   <script>
+    $(document).ready(function() {
+        // Add an event listener to all checkboxes with class 'category-checkbox'
+        $('.category-checkbox').change(function() {
+            // Check which checkboxes are checked
+            var selectedCategories = $('.category-checkbox:checked').map(function() {
+                return $(this).val();
+            }).get();
+
+            // Make an AJAX request to your server to get data based on the selected categories
+            $.ajax({
+                url: '/getproduct/' + selectedCategories[0], // Use the new route
+                method: 'GET',
+                success: function(data) {
+                    // Handle the returned data and display products
+                    displayProducts(data);
+                },
+                error: function(error) {
+                    console.error('Error:', error);
+                }
+            });
+        });
+
+        // Function to display products in the container
+        function displayProducts(products) {
+            // Clear existing content
+            $('#product-container').empty();
+
+            // Append new product information
+            $.each(products, function(index, product) {
+                $('#product-container').append(`
+                    <div class="col-xl-3 col-lg-4 col-md-4 col-sm-6 col-xs-12">
+                        <div class="product-item">
+                            <div class="product-image-hover">
+                                <a href="{{ url('product-detail/') }}/${product.name}">
+                                    <img class="primary-image" src="${product.image_url}" alt="">
+                                </a>
+                                <div class="product-hover">
+                                    <button class="add-to-cart" data-product-id="${product.id}" role="button"><i class="icon icon-FullShoppingCart"></i></button>
+                                    <button class="add-to-wish" data-product-id="${product.id}"><i class="icon icon-Heart"></i></button>
+                                    <a href="{{ url('product-detail/') }}/${product.name}"><i class="icon icon-Files"></i></a>
+                                </div>
+                            </div>
+                            <div class="product-text">
+                                <div class="product-rating">
+                                    <i class="fa fa-star color"></i>
+                                    <i class="fa fa-star color"></i>
+                                    <i class="fa fa-star color"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                </div>
+                                <h4><a href="{{ url('product-detail/') }}/${product.name}">${product.name}</a></h4>
+                                <div class="product-price"><span>$${product.discounted_price}</span><span class="prev-price">$${product.price}</span></div>
+                            </div>
+                        </div>
+                    </div>
+                `);
+            });
+        }
+    });
 </script>
+
+
 
 @endsection

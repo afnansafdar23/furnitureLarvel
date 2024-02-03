@@ -27,15 +27,15 @@
                                     <div class="cart-dropdown-item">
 
                                         <div class="cart-p-image">
-                                            <a ><img src="{{$details['photo']}}" alt="{{ $details['name'] }}"></a>
+                                            <img src="{{$details['photo']}}" alt="{{ $details['name'] }}" width="100px" height="100px">
                                         </div>
                                         <div class="cart-p-text">
                                             <a  class="cart-p-name">{{ $details['name'] }}</a>
-                                            <span>{{ $details['quantity'] }}</span>
+                                            <span></span>
                                             <span>{{ $details['size'] }}</span>
                                             <div class="cart-p-qty">
                                                 <label>Qty</label>
-                                                <input type="text" placeholder="1">
+                                                <input type="text" placeholder="" value="{{ $details['quantity'] }}">
                                                 <button  class="remove-from-cart" data-id="{{ $id }}"  ><i class="icon icon-Delete"></i></button>
                                             </div>
                                         </div>

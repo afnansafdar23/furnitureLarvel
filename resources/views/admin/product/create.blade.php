@@ -81,7 +81,7 @@
                                     </div>
 
                                     <div class="col-6">
-                                        <x-cento-dash-input type="number" nullable name="sku"
+                                        <x-cento-dash-input type="text" nullable name="sku"
                                             label="SKU (Unique Product No.)" placeholder="Product No. should be unique"
                                             :message="$errors->first('sku')" />
                                     </div>

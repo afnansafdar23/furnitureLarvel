@@ -5,6 +5,7 @@ namespace App\Http\Controllers\frontend;
 use App\Http\Controllers\Controller;
 use App\Models\ChildCategory;
 use App\Models\Color;
+use App\Models\order;
 use App\Models\ParentCategory;
 use App\Models\Product;
 use App\Models\productSize;
@@ -77,21 +78,16 @@ if($pid->isEmpty())
 
     public function all(){
 
-
         $product = Product::all();
-        $category = '';
-         // Eager load the 'colors' relationship to optimize queries
-
-        // dd($product);
-
-
-
-
-
+        $categories = ParentCategory::all();
+        $productCounts = Product::select('parent_category_id', DB::raw('count(*) as product_count'))
+            ->groupBy('parent_category_id')
+            ->get();
 
         return view('frontend.layout.allproduct')->with([
             'product' => $product,
-            'category' =>$category
+            'categories' => $categories,
+            'productCounts' => $productCounts,
         ]);
 
     }
@@ -133,6 +129,7 @@ if($pid->isEmpty())
         // Product doesn't exist, add it to the cart
         $productImage =  $product->getFirstMediaUrl('product.image');
         $wish[$id] = [
+            "id" =>$product->id,
             "name" => $product->name,
             "quantity" => $quantity ,
             "price" => $product->discounted_price,
@@ -160,6 +157,29 @@ if($pid->isEmpty())
 
        }
 
+ public function updateCart(Request $request)
+{
+    $id = $request->input('id');
+    $quantity = $request->input('quantity');
+
+    $cart = Session::get('cart', []);
+
+    if (isset($cart[$id])) {
+        // Update the quantity for the specified product
+        $cart[$id]['quantity'] = $quantity;
+
+        // Save the updated cart array to the session
+        Session::put('cart', $cart);
+
+        // Return a JSON response with the updated cart section
+        return response()->json([
+            'cartSection' => view('frontend.layout.cart')->render(),
+                  'updatecar' => view('frontend.layout.adcart')->render()
+        ]);
+    }
+
+    return response()->json(['error' => 'Product not found in cart']);
+}
     public function addtowishlist($productId)
     {
         // Sample product information retrieval, replace it with your logic
@@ -207,7 +227,8 @@ if($pid->isEmpty())
             if(isset($cart[$request->id])) {
                 unset($cart[$request->id]);
                 session()->put('cart', $cart);
-                return response()->json(['cartSection' => view('frontend.layout.cart')->render()]);
+                return response()->json([ 'cartSection' => view('frontend.layout.cart')->render(),
+                'updatecar' => view('frontend.layout.adcart')->render()]);
 
             }
 
@@ -276,6 +297,117 @@ return view('frontend.layout.productdetail')->with([
 
     }
 
+    public function checkout():View
+    {
+
+        return view ('frontend.layout.checkout');
+
+    }
+
+
+    public function payment(Request $request)
+    {
+        // $all = $request->all();
+        // // dd($all);
+        // $userID = Auth::User()->id;
+        $validation =$request->validate([
+            'Fname'=>'required',
+            'Lname'=>'required|max:60',
+            'email'=>'required|max:60',
+            'address'=>'required',
+            'city'=>'required',
+            'state'=>'required',
+            'zipcode'=>'required',
+            'Phno'=>'required',
+            'payment_method'=>'required',
+
+      ]);
+        print_r($validation);
+        $Fname=$request->input('Fname');
+        $Lname=$request->input('Lname');
+        $address=$request->input('address');
+        $city=$request->input('city');
+        $state=$request->input('state');
+        $zipcode=$request->input('zipcode');
+        $phno=$request->input('Phno');
+        $Pmethod=$request->input('payment_method');
+
+          $fullname =$Fname.''.$Lname;
+        $Delivery_Address=$address.',<br>'.$city.','.$state.',<br>'.$zipcode.','.$phno;
+
+        if(session('cart'))
+        {
+            $total=0;$count=0;$order_details='';$delivery_charges=0;
+            foreach (session('cart') as $id => $details)
+            {
+                $count=$count +1 ;
+                $total += $details['price'] * $details['quantity'];
+                $order_details=$order_details.'<br>'.
+                ('Product Name:'.$details["name"].', Quantity: '.$details["quantity"].
+                '<br> Price:'.$details["price"]);
+            }
+    }
+    $Amount = $details["price"];
+    $O_Details=$order_details;
+    $Email_Id=Auth::user()->email;
+    $userid = Auth::user()->id;
+    $loginid=$Email_Id;
+    $name=Auth::user()->name;
+/*Order Details Ends Here*/
+     $Order = new order();
+     $Order->userid=$userid;
+     $Order->address=$Delivery_Address;
+     $Order->product_id=$details["id"];
+     $Order->totalprice=$Amount;
+     $Order->color = $details["color"];
+     $Order->size = $details["size"];
+     $Order->size = $details["size"];
+     $Order->payment_method=$Pmethod;
+     $Order->save();
+     $id=$Order->id;
+
+     if($Pmethod=='stripe')
+     {
+        return redirect("proceed_to_Payment/$id");
+     }
+     else
+     {
+
+
+            $welcomemessage='Hello '.$name.'<br>';
+            $emailbody='Your Order Was Placed Successfully<br>
+            <p>Thank you for your order. We’ll send a confirmation when your order ships. Your estimated delivery date is 3-5 working days. If you would like to view the status of your order or make any changes to it, please visit Your Orders on <a href="https://www.gainaloe.com">Gainaloe.com</a></p>
+            <h4>Order Details: </h4><p> Order No:'.$id.$O_Details.'</p>
+             <p><strong>Delivery Address:</strong>
+           '.$Delivery_Address.'</p>
+            <p> <strong>Total Amount:</strong>
+            '.$Amount.'</p>
+             <p><strong>Payment Method:</strong>'.$p_method.'</p>';
+            $emailcontent=array(
+                'WelcomeMessage'=>$welcomemessage,
+                'emailBody'=>$emailbody
+
+                );
+                Mail::send(array('html' => 'emails.order_email'), $emailcontent, function($message) use
+                ($loginid, $name,$id)
+                {
+                    $message->to($loginid, $name)->subject
+                    ('Your ouction.pk order '.$id.' is Confirmed');
+                    $message->from('muhammadnoman0786@hotmail.com','ouction.pk');
+
+                });
+
+                Session::forget('cart');
+                Session::forget('discount');
+                Session::forget('promocode');
+                session()->flash('success', 'Session data  is Cleared');
+
+
+        return redirect("/Orders")->with('status','Order Placed Succesfully!');
+     }
+
+
+}
 
 }
 

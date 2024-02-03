@@ -39,10 +39,10 @@
                                      @foreach(session('wish') as $id => $details)
                             <tr>
                                 <td class="product-remove"><button class="remove-from-wish" data-id="{{ $id }}">×</button></td>
-                                <td class="product-thumbnail"><a href="product-details.html"><img src="{{$details['photo']}}" alt="" /></a></td>
-                                <td class="product-name"><a href="product-details.html">{{ $details['name'] }}</a></td>
+                                <td class="product-thumbnail"><a href="{{ url('product-detail/'.$details['name']) }}"><img src="{{$details['photo']}}" alt="" /></a></td>
+                                <td class="product-name"><a href="{{ url('product-detail/'.$details['name']) }}">{{ $details['name'] }}</a></td>
                                 <td class="w-c-price"><span class="amount">${{ $details['price'] }}</span></td>
-                                <td class="product-add-to-cart"><a href="{{ url('add-to-cart/'.$details['name']) }}"> Add to Cart</a></td>
+                                <td class="product-add-to-cart"><a href="{{ url('product-detail/'.$details['name']) }}"> Add to Cart</a></td>
                             </tr>
                             @endforeach
                             @endif

@@ -34,175 +34,55 @@
                         <div id="billing" >
                             <div class="panel-body">
                                 <div class="login-form">
-                                    <form action="#" method="post">
+                                    <form action="{{url('payment')}}" method="post">
+                                    @csrf
                                         <div class="customer-name">
                                             <div class="first-name">
                                                 <p>First Name<span>*</span></p>
-                                                <input type="text" required>
+                                                <input type="text" placeholder="First Name" name="Fname" required>
                                             </div>
                                             <div class="last-name">
                                                 <p>Last Name<span>*</span></p>
-                                                <input type="text" required>
+                                                <input type="text" placeholder="Last Name" name="Lname" required>
                                             </div>
                                         </div>
                                         <div class="customer-info">
-                                            <div class="company-name">
-                                                <p>Company</p>
-                                                <input type="text">
-                                            </div>
+
                                             <div class="email-address">
                                                 <p>Email Adress<span>*</span></p>
-                                                <input type="email" required>
+                                                <input type="email" placeholder="Email" name="email" required>
+                                            </div>
+                                            <div class="telephone">
+                                                <p>Phone NO<span>*</span></p>
+                                                <input type="text" placeholder="PhNo" name="Phno" required>
                                             </div>
                                         </div>
                                         <p>Address<span>*</span></p>
-                                        <input type="text" required>
-                                        <input type="text">
+                                       <textarea name="address" id="" cols="30" rows="10"  placeholder="Street address, P.O. box etc." required></textarea><br>
                                         <div class="city-country">
-                                            <div class="city">
+                                            <div class="city" >
                                                 <p>City<span>*</span></p>
-                                                <input type="text" required>
+                                                <input type="text" placeholder="City" name="city" required>
                                             </div>
                                             <div class="state">
                                                 <p>State/Province</p>
-                                                <select class="country">
-                                                    <option value="state">Please select region, state or province</option>
-                                                    <option value="indo">Bahasa Indonesia</option>
-                                                    <option value="melyu">Bahasa Melayu</option>
-                                                    <option value="deutsch">Deutsch (Deutschland)</option>
-                                                    <option value="austra">English (Australia)</option>
-                                                    <option value="canada">English (Canada)</option>
-                                                    <option value="india">English (India)</option>
-                                                    <option value="ireland">English (Ireland)</option>
-                                                    <option value="maktoob">English (Maktoob)</option>
-                                                    <option value="malaysia">English (Malaysia)</option>
-                                                </select>
+                                               <input type="text" placeholder="State  / Province" name="state" required>
                                             </div>
                                         </div>
                                         <div class="city-country">
                                             <div class="city">
                                                 <p>Zip/Postal Code<span>*</span></p>
-                                                <input type="text" required>
+                                                <input type="text" placeholder="ZipCode" name="zipcode" required>
                                             </div>
-                                            <div class="state">
-                                                <p>Country<span>*</span></p>
-                                                <select class="country">
-                                                    <option value="AF">Afghanistan</option>
-                                                    <option value="AU">Australia</option>
-                                                    <option value="BH">Bahrain</option>
-                                                    <option value="BD">Bangladesh</option>
-                                                    <option value="CA">Canada</option>
-                                                    <option value="DK">Denmark</option>
-                                                    <option value="EG">Egypt</option>
-                                                    <option value="FR">France</option>
-                                                    <option value="GB">United Kingdom</option>
-                                                    <option selected="selected" value="US">United States</option>
-                                                </select>
-                                            </div>
+
                                         </div>
-                                        <div class="customer-info">
-                                            <div class="telephone">
-                                                <p>Telephone<span>*</span></p>
-                                                <input type="text" required>
-                                            </div>
-                                            <div class="fax">
-                                                <p>Fax</p>
-                                                <input type="text">
-                                            </div>
-                                        </div>
-                                        <div class="ship-wrap">
-                                            <div class="ship-address">
-                                                <label>
-                                                    <input type="radio" name="shipping_address" value="old-address" checked="checked">Ship to this address
-                                                </label>
-                                            </div>
-                                             <div  class="ship-address">
-                                               <label>
-                                                    <input type="radio" name="shipping_address" value="new-address" id="ship-new-address">Ship to different address
-                                                </label>
-                                            </div>
-                                        </div>
-                                        <div class="ship-new-address-info">
-                                            <div class="customer-name">
-                                                <div class="first-name">
-                                                    <p>First Name<span>*</span></p>
-                                                    <input type="text" required>
-                                                </div>
-                                                <div class="last-name">
-                                                    <p>Last Name<span>*</span></p>
-                                                    <input type="text" required>
-                                                </div>
-                                            </div>
-                                            <div class="customer-info">
-                                                <div class="company-name">
-                                                    <p>Company</p>
-                                                    <input type="text">
-                                                </div>
-                                                <div class="email-address">
-                                                    <p>Email Adress<span>*</span></p>
-                                                    <input type="email" required>
-                                                </div>
-                                            </div>
-                                            <p>Address<span>*</span></p>
-                                            <input type="text" required>
-                                            <input type="text">
-                                            <div class="city-country">
-                                                <div class="city">
-                                                    <p>City<span>*</span></p>
-                                                    <input type="text" required>
-                                                </div>
-                                                <div class="state">
-                                                    <p>State/Province</p>
-                                                    <select class="country">
-                                                        <option value="state">Please select region, state or province</option>
-                                                        <option value="indo">Bahasa Indonesia</option>
-                                                        <option value="melyu">Bahasa Melayu</option>
-                                                        <option value="deutsch">Deutsch (Deutschland)</option>
-                                                        <option value="austra">English (Australia)</option>
-                                                        <option value="canada">English (Canada)</option>
-                                                        <option value="india">English (India)</option>
-                                                        <option value="ireland">English (Ireland)</option>
-                                                        <option value="maktoob">English (Maktoob)</option>
-                                                        <option value="malaysia">English (Malaysia)</option>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                            <div class="city-country">
-                                                <div class="city">
-                                                    <p>Zip/Postal Code<span>*</span></p>
-                                                    <input type="text" required>
-                                                </div>
-                                                <div class="state">
-                                                    <p>Country<span>*</span></p>
-                                                    <select class="country">
-                                                        <option value="AF">Afghanistan</option>
-                                                        <option value="AU">Australia</option>
-                                                        <option value="BH">Bahrain</option>
-                                                        <option value="BD">Bangladesh</option>
-                                                        <option value="CA">Canada</option>
-                                                        <option value="DK">Denmark</option>
-                                                        <option value="EG">Egypt</option>
-                                                        <option value="FR">France</option>
-                                                        <option value="GB">United Kingdom</option>
-                                                        <option selected="selected" value="US">United States</option>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                            <div class="customer-info">
-                                                <div class="telephone">
-                                                    <p>Telephone<span>*</span></p>
-                                                    <input type="text" required>
-                                                </div>
-                                                <div class="fax">
-                                                    <p>Fax</p>
-                                                    <input type="text">
-                                                </div>
-                                            </div>
-                                        </div>
+
+
+
                                         <div class="buttons-set">
-                                            <button class="button" type="button"><span>Continue</span></button>
+                                            <button class="collapse button" data-bs-toggle="collapse" data-parent="#accordion" type="button"><span>Continue</span></button>
                                         </div>
-                                    </form>
+
                                 </div>
                             </div>
                         </div>
@@ -211,7 +91,7 @@
                     <div class="panel">
                         <div class="panel-heading" id="headingFive">
                             <h4 class="panel-title">
-                                <a class="collapsed" data-bs-toggle="collapse" data-parent="#accordion" href="#payment-info">
+                                <a class="collapse" data-bs-toggle="collapse" data-parent="#accordion" href="#payment-info">
                                     <span>2</span> PAYMENT INFORMATION
                                 </a>
                             </h4>
@@ -221,16 +101,15 @@
                                 <div class="ship-method payment">
                                     <div class="ship-wrap">
                                         <div class="ship-address">
-                                            <input type="radio" name="check" value="check">
-                                            <span>Check / Money order </span>
+                                            <input type="radio" name="payment_method" value="ChachOnDelivery">
+                                            <span>Cash on Delivery </span>
                                         </div>
                                          <div class="ship-address">
-                                            <input type="radio" name="check" value="credit">
-                                            <span>Credit Card (saved) </span>
+                                            <input type="radio" name="payment_method" value="Stipe">
+                                            <span>Stripe </span>
                                         </div>
                                     </div>
                                     <div class="buttons-set">
-                                        <p class="back-link"><a href="#">Back</a></p>
                                         <button type="button" class="button"><span>Continue</span></button>
                                     </div>
                                 </div>
@@ -247,7 +126,7 @@
                         </div>
                         <div id="order-review" class="collapse">
                             <div class="panel-body">
-                                <form action="#">
+
                                     <div class="checkout-table table-responsive">
                                         <table>
                                             <thead>
@@ -263,23 +142,21 @@
                                         @if(session('cart'))
                                      @foreach(session('cart') as $id => $details)
                                           <?php $total += $details['price'] * $details['quantity'] ?>
+                                          @endforeach
+                                          @endif
+                                          @foreach(session('cart') as $id => $details)
                                                 <tr>
-                                                    <td class="p-name">Aliquam consequat</td>
-                                                    <td class="p-amount"><span class="amount">£156.87</span></td>
-                                                    <td class="p-quantity">1</td>
-                                                    <td class="p-total alignright">£156.87</td>
+                                                    <td class="p-name">{{$details['name']}}</td>
+                                                    <td class="p-amount"><span class="amount">${{$details['price']}}</span></td>
+                                                    <td class="p-quantity">{{$details['quantity']}}</td>
+                                                    <td class="p-total alignright">${{$details['price']}}</td>
                                                 </tr>
-                                                <tr>
-                                                    <td class="p-name">Spante Congue</td>
-                                                    <td class="p-amount"><span class="amount">£156.87</span></td>
-                                                    <td class="p-quantity">1</td>
-                                                    <td class="p-total alignright">£156.87</td>
-                                                </tr>
+                                            @endforeach
                                             </tbody>
                                             <tfoot>
                                                 <tr>
                                                     <td colspan="3" class="alignright">Subtotal</td>
-                                                    <td>£313.84</td>
+                                                    <td>${{$total}}</td>
                                                 </tr>
                                                 <tr>
                                                     <td colspan="3" class="alignright">Shipping &amp; Handling (Flat Rate - Fixed)    </td>
@@ -287,14 +164,13 @@
                                                 </tr>
                                                 <tr>
                                                     <td colspan="3" class="alignright"><strong>Grand Total</strong></td>
-                                                    <td><strong>£318.84</strong></td>
+                                                    <td><strong>${{$total}}</strong></td>
                                                 </tr>
                                             </tfoot>
                                         </table>
                                         <div class="checkout-buttons">
-                                            <p>Forgot an Item? <a href="#">Edit Your Cart</a>
-</p>
-                                            <button type="button" class="default-btn"><span>Place Order</span></button>
+                                            <p>Forgot an Item? <a href="{{url('/cart')}}">Edit Your Cart</a></p>
+                                            <button type="submit" class="default-btn"><span>Place Order</span></button>
                                         </div>
                                     </div>
                                 </form>
@@ -310,36 +186,25 @@
                       <span class="badge badge-secondary badge-pill">3</span>
                     </h4>
                     <ul class="list-group mb-3">
+                    @if(session('cart'))
+                    @foreach(session('cart') as $id => $details)
                       <li class="list-group-item d-flex justify-content-between lh-condensed">
                         <div>
-                            <img  src="assets/img/favicon.png" alt="" height="50px" width="50px" >
-                          <h6 class="my-0 d-inline">Product name</h6>
-                          <small class="text-dark d-block">Brief description</small>
+                            <img  src="{{$details['photo']}}" alt="" height="50px" width="50px" >
+                          <h6 class="my-0 d-inline">{{$details['name']}}</h6>
+                          <small class="text-dark d-block">{{$details['size']}}</small>
                         </div>
-                        <span class="text-dark">$12</span>
-                      </li>
-                      <li class="list-group-item d-flex justify-content-between lh-condensed">
-                        <div>
-                            <img  src="assets/img/favicon.png" alt="" height="50px" width="50px" >
-                          <h6 class="my-0 d-inline">Product name</h6>
-                          <small class="text-dark d-block">Brief description</small>
-                        </div>
-                        <span class="text-dark">$8</span>
-                      </li>
-                      <li class="list-group-item d-flex justify-content-between lh-condensed">
-                        <div>
-                            <img  src="assets/img/favicon.png" alt="" height="50px" width="50px" >
-                          <h6 class="my-0 d-inline">Product name</h6>
-                          <small class="text-dark d-block">Brief description</small>
-                        </div>
-                        <span class="text-dark">$5</span>
+                        <span class="text-dark">${{$details['price']}}</span>
                       </li>
                       <li class="list-group-item d-flex justify-content-between bg-light">
                       </li>
+                      @endforeach
+                      @endif
                       <li class="list-group-item d-flex justify-content-between">
                         <span>Total (USD)</span>
-                        <strong>$20</strong>
+                        <strong>${{$total}}</strong>
                       </li>
+
                     </ul>
                   </div>
             </div>

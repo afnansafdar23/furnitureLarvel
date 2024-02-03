@@ -11,7 +11,7 @@
             </a>
             <!--end::Logo-->
             <!--begin::Aside-->
-            <div class="d-flex flex-column flex-column-fluid flex-center w-lg-50 p-10">
+            <div class="d-flex flex-column flex-column-fluid flex-center w-lg-40 p-10 ">
                 <!--begin::Wrapper-->
                 <div class="d-flex justify-content-between flex-column-fluid flex-column w-100 mw-450px">
                     <!--begin::Header-->
@@ -30,7 +30,7 @@
                     </div>
                     <!--end::Header-->
                     <!--begin::Body-->
-                    <div class="py-20">                       
+                    <div class="py-20">
                         <!--begin::Form-->
                         <form class="form w-100" action={{ route('auth.login.user') }} method="POST">
                             @csrf

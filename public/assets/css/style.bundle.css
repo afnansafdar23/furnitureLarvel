@@ -46676,7 +46676,7 @@ label.rating-label:hover ~ .rating-label > i {
     background-position-y: bottom;
 }
 .bgi-position-y-center {
-    background-position-y: center;
+    background-position-y: cover;
 }
 .bgi-position-x-start {
     background-position-x: left;
@@ -46700,7 +46700,7 @@ label.rating-label:hover ~ .rating-label > i {
     background-size: auto;
 }
 .bgi-size-cover {
-    background-size: cover;
+    background-size:cover;
 }
 .bgi-size-contain {
     background-size: contain;

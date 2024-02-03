@@ -292,6 +292,7 @@ $('.decrement-btn').click(function (e) {
                     data: {_token: '{{ csrf_token() }}', id: ele.attr("data-id")},
                     success: function (response) {
                         updatecart(response.cartSection);
+                        updateaddCart(response.updatecar);
 
 
                     }
@@ -303,6 +304,10 @@ $('.decrement-btn').click(function (e) {
     // Update the cart section with the new HTML content
     $('#addcart').html(cartHtml);
             }
+            function updateaddCart(carthtml) {
+    // Update the cart section with the new HTML content
+    $('#addcart1').html(carthtml);
+}
 });
 $(document).on('click', '.remove-from-wish', function (e) {
     e.preventDefault();
@@ -368,6 +373,7 @@ $(document).ready(function(){
     $('#addcart').html(cartHtml);
 }
 });
+
 $(document).ready(function () {
     $('.add-to-wish').on('click', function () {
         var productId = $(this).data('product-id');
