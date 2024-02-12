@@ -3,8 +3,9 @@
 namespace App\Http\Controllers\Admin;
 
 use App\DataTables\SettingDatatable;
+use App\Helpers\GlobalHelper;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Setting\StoreRequest;
+use App\Http\Requests\Setting\StoreUpdateSettingRequest;
 use App\Http\Requests\Setting\UpdateRequest;
 use App\Models\setting;
 use Exception;
@@ -32,8 +33,7 @@ class SettingController extends Controller
      */
     public function create():View
     {
-        return view('admin.Setting.create');
-
+           return view('admin.Setting.create');
     }
 
     /**
@@ -42,99 +42,33 @@ class SettingController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreRequest $request):RedirectResponse
-    {
+  public function storeUpdateSetting(StoreUpdateSettingRequest $request): RedirectResponse
+{
+    try {
+        $validatedData = $request->validated();
 
-    //    dd($request->all());
-        try {
-            $setting = setting::create($request->validated());
-            if (isset($request->favicon)) {
-                $setting->addMedia(storage_path('tmp/uploads/' . $request->favicon))->toMediaCollection('setting.favicon');
+        // Find the existing setting or create a new one
+        $setting = Setting::updateOrCreate([], $validatedData);
+
+        // Handle media for 'settings.logo'
+        if (isset($request['image'])) {
+            if ($setting->getFirstMedia('settings.logo')) {
+                $setting->clearMediaCollection('settings.logo');
             }
-            if (isset($request->sitelogo)) {
-                $setting->addMedia(storage_path('tmp/uploads/' . $request->sitelogo))->toMediaCollection('setting.sitelogo');
-            }
-            if($setting){
-                return redirect()->route('setting.index')->withSuccess('Data Save Successfully ');
-            }else{
-                return back()-> withError($setting->getMessage());
-            }
-
-
-
-        } catch (Exception $ex) {
-            return back()->withError($ex->getMessage());
+            $setting->addMedia($request['image'])->toMediaCollection('settings.logo');
         }
-    }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(setting $setting):View
-
-    {
-
-
-
-        return view('admin.Setting.create')->with([
-            'setting' => $setting
-        ]);
-
-
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(UpdateRequest $request, setting $setting):RedirectResponse
-    {
-
-        try {
-            $setting->update($request->validated());
-
-            if (isset($request['image']) == null) {
-                $setting->clearMediaCollection('setting.image');
-            } else {
-                if (!file_exists(storage_path('tmp/uploads/' . $request['image']))) {
-                    return redirect()->route('setting.index')->withSuccess('Setting Successfully Updated');
-                }
-                $setting->media()->delete();
-                $setting->addMedia(storage_path('tmp/uploads/' . $request['image']))->toMediaCollection('setting.image');
+        // Handle media for 'settings.favicon'
+        if (isset($request['settings_favicon'])) {
+            if ($setting->getFirstMedia('settings.favicon')) {
+                $setting->clearMediaCollection('settings.favicon');
             }
-            if ($setting) {
-                return redirect()->route('setting.index')->withSuccess('Setting successfully updated');
-            }
-        } catch (Exception $ex) {
-            return back()->withError($ex->getMessage());
+            $setting->addMedia($request['settings_favicon'])->toMediaCollection('settings.favicon');
         }
+cache()->forget('settings');
+        return redirect()->back()->withSuccess('Settings have been updated successfully!');
+    } catch (Exception $ex) {
+        return back()->withError($ex->getMessage());
     }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
-    }
+}
 }

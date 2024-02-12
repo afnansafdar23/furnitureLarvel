@@ -2,7 +2,16 @@
     "name": "centosquare/centodash",
     "type": "project",
     "description": "This project provide laravel starter kit.",
-    "keywords": ["framework", "laravel", "starterkit","laravel-starterkit","kit","dashboard","admin dashboard","website"],
+    "keywords": [
+        "framework",
+        "laravel",
+        "starterkit",
+        "laravel-starterkit",
+        "kit",
+        "dashboard",
+        "admin dashboard",
+        "website"
+    ],
     "license": "MIT",
     "authors": [
         {
@@ -42,12 +51,12 @@
     "autoload": {
         "psr-4": {
             "App\\": "app/",
-             "App\\Helpers\\": "app/Helpers/",
-             "Database\\Factories\\": "database/factories/",
+            "App\\Helpers\\": "app/Helpers/",
+            "Database\\Factories\\": "database/factories/",
             "Database\\Seeders\\": "database/seeders/"
         },
         "files": [
-            "app/Helpers/SettingHelper.php"
+            "app/Helpers/GlobalHelper.php"
         ]
     },
     "autoload-dev": {

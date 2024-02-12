@@ -21,13 +21,19 @@
     <!--end::Dropzone-->
 </div>
 @push('scripts')
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10.3.3/dist/sweetalert2.min.js"
-    integrity="sha384-0xU6Mwv6yjU6HGj6iCr0q0jDfQ4Ui0PBAOQFCxjmdOv8epflj6zthiJ5F5O5KjZ" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10.3.3/dist/sweetalert2.min.js"
+        integrity="sha384-0xU6Mwv6yjU6HGj6iCr0q0jDfQ4Ui0PBAOQFCxjmdOv8epflj6zthiJ5F5O5KjZ" crossorigin="anonymous"></script>
 
-<script type="text/javascript">
-    var uploadedDocumentMap = {};
+    <script type="text/javascript">
+        var uploadedDocumentMap = {};
         var myDropzone = new Dropzone(
-            '#{{ $dropzone_name ?? 'kt_dropzonejs_example_2' }}', {
+            '<?php
+            if (isset($dropzone_name)) {
+                echo '#' . $dropzone_name;
+            } else {
+                echo '#kt_dropzonejs_example_2';
+            }
+            ?>', {
                 url: '{{ route('file.upload') }}',
                 maxFiles: 1, // MB
                 addRemoveLinks: true,
@@ -35,8 +41,14 @@
                     'X-CSRF-TOKEN': "{{ csrf_token() }}"
                 },
                 success: function(file, response) {
-                    var fieldName = '{{ $dropzone_name ?? 'image' }}'; // Set the field name here
-                $('form').append('<input type="hidden" name="' + fieldName + '" value="' + response.name + '">')
+                    $('form').append('<input type="hidden" name=" <?php
+                    if (isset($image_name)) {
+                        echo $image_name;
+                    } else {
+                        echo 'image';
+                    }
+                    ?>" value="' + response.name +
+                        '">')
                     uploadedDocumentMap[file.name] = response.name
                 },
                 removedfile: function(file) {
@@ -50,9 +62,6 @@
                     }
                     $('form').find('input[name="image"][value="' + name + '"]').remove()
                 },
-
-
-
                 init: function() {
                     @if (isset($file) && $file->getFirstMediaUrl($collection_name))
                         var fileUrl = {!! json_encode($file->getFirstMediaUrl($collection_name)) !!}
@@ -87,11 +96,8 @@
                             }
                         })
 
-
                     });
-
-            }
-
+                }
             });
-</script>
+    </script>
 @endpush
