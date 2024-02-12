@@ -359,7 +359,7 @@
                 <!--begin:Menu item-->
                 <div class="menu-item menu-accordion ">
                     <!--begin:Menu link-->
-                    <a class="menu-link {{ Request::route()->getName() == 'setting.create' ? 'active' : '' }}{{ Request::route()->getName() == 'setting.index' ? 'active' : '' }}"
+                    <a class="menu-link {{ Request::route()->getName() == 'setting.index' ? 'active' : '' }}"
                         href="{{ route('setting.index') }}">
                         <span class="menu-bullet">
                             <span class="svg-icon svg-icon-2">
